@@ -34,8 +34,7 @@ namespace retract::core
 
 bool Game::Initialize()
 {
-    i32 err = SDL_Init(SDL_INIT_VIDEO);
-    if (err)
+    if (SDL_Init(SDL_INIT_VIDEO))
     {
         std::cerr << "Failed to initialize SDL: " << SDL_GetError() << std::endl;
         return false;
@@ -49,6 +48,7 @@ bool Game::Initialize()
         return false;
     }
 
+    Init();
     return true;
 }
 
@@ -63,7 +63,7 @@ void Game::Run()
     }
 }
 
-void Game::Shutdown()
+void Game::Shutdown() const
 {
     SDL_DestroyWindow(m_window);
     SDL_Quit();

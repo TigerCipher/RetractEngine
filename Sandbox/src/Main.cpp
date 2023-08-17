@@ -21,16 +21,29 @@
 //
 // ------------------------------------------------------------------------------
 
-#include <iostream>
-
 #include "Retract/Core/Game.h"
+
+#pragma comment(lib, "Retract.lib")
+
+#include <iostream>
 
 using namespace retract;
 
+class Sandbox : public core::Game
+{
+public:
+    Sandbox() : Game(){}
+
+    void Init() override
+    {
+        std::cout << "Sandbox game init\n";
+    }
+};
+
 int main(int argc, char* argv[])
 {
-    core::Game game{};
-    if(!game.Initialize())
+    Sandbox game{};
+    if (!game.Initialize())
     {
         std::cerr << "Something went wrong\n";
         return -1;

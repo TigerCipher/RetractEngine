@@ -32,10 +32,13 @@ class Game
 {
 public:
     Game() = default;
+    virtual ~Game() = default;
 
     bool Initialize();
     void Run();
-    void Shutdown();
+    void Shutdown() const;
+
+    virtual void Init() = 0;
 private:
     void ProcessInput();
     void Update();
