@@ -29,18 +29,43 @@
     #define WIN32_LEAN_AND_MEAN
 #endif
 
+#include "Retract/Components/Entity.h"
+#include "Retract/Components/Sprite.h"
+
+
 #include <Windows.h>
 #include <crtdbg.h>
 
 
 using namespace retract;
 
+
+class Asteroid : public Entity
+{
+public:
+    Asteroid(core::Game* game) : Entity{ game }
+    {
+        m_sprite = new Sprite(this);
+        m_sprite->SetTexture(game->GetTexture("./Content/asteroid.png"));
+        SetPosition({ 100, 100 });
+    }
+    ~Asteroid() override { delete m_sprite; }
+    void UpdateEntity(f32 delta) override {}
+
+private:
+    Sprite* m_sprite;
+};
+
 class Sandbox : public core::Game
 {
 public:
     Sandbox() : Game() {}
 
-    void Init() override { LOG_INFO("Sandbox game initialized"); }
+    void Init() override
+    {
+        LOG_INFO("Sandbox game initialized");
+        AddEntity(new Asteroid(this));
+    }
 };
 
 //int main(int argc, char* argv[])

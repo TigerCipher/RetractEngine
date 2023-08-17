@@ -27,6 +27,13 @@
 
 struct SDL_Window;
 struct SDL_Renderer;
+struct SDL_Texture;
+
+namespace retract
+{
+class Entity;
+class Sprite;
+}
 
 namespace retract::core
 {
@@ -34,22 +41,39 @@ namespace retract::core
 class Game
 {
 public:
-    Game() = default;
+    Game()          = default;
     virtual ~Game() = default;
 
     bool Initialize();
-    i32 Run(); // returns 0 if no issues
+    i32  Run(); // returns 0 if no issues
     void Shutdown() const;
 
     virtual void Init() = 0;
+
+    void AddEntity(Entity* entity);
+    void RemoveEntity(Entity* entity);
+
+    void AddSprite(Sprite* sprite);
+    void RemoveSprite(Sprite* sprite);
+
+    SDL_Texture* GetTexture(const char* filename);
+
 private:
     void ProcessInput();
     void Update();
     void Render();
+    SDL_Texture* LoadTexture(const char* filename);
 
-    bool m_running{false};
-    SDL_Window* m_window{nullptr};
-    SDL_Renderer* m_renderer{nullptr}; // TODO: Testing purposes only
+    bool          m_running{ false };
+    SDL_Window*   m_window{ nullptr };
+    SDL_Renderer* m_renderer{ nullptr }; // TODO: Testing purposes only
+
+    utl::vector<Entity*> m_entities{};
+    utl::vector<Entity*> m_pending_entities{};
+    bool                 m_updating_entities{ false };
+
+    std::unordered_map<std::string, SDL_Texture*> m_textures{};
+    utl::vector<Sprite*> m_sprites{};
 };
 
-}
+} // namespace retract::core

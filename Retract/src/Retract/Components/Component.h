@@ -24,7 +24,7 @@
 
 #include "Retract/Common.h"
 
-namespace retract::components
+namespace retract
 {
 class Entity;
 
@@ -38,7 +38,7 @@ public:
 
     [[nodiscard]] constexpr i32 UpdateOrder() const { return m_update_order; }
 
-private:
+protected:
     Entity* m_owner{ nullptr };
     i32     m_update_order{};
 };

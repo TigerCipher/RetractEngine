@@ -28,3 +28,13 @@
 #include "Types.h"
 #include "Util/Logger.h"
 #include "Util/Util.h"
+
+
+// TEMP
+struct Vector2
+{
+    f32 x;
+    f32 y;
+};
+
+using vec2 = Vector2;

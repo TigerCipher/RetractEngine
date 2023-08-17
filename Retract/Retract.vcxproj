@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="src\Retract\Components\Component.cpp" />
     <ClCompile Include="src\Retract\Components\Entity.cpp" />
+    <ClCompile Include="src\Retract\Components\Sprite.cpp" />
     <ClCompile Include="src\Retract\Core\Game.cpp" />
     <ClCompile Include="src\Retract\Util\Logger.cpp" />
   </ItemGroup>
@@ -151,6 +152,7 @@
     <ClInclude Include="src\Retract\Common.h" />
     <ClInclude Include="src\Retract\Components\Component.h" />
     <ClInclude Include="src\Retract\Components\Entity.h" />
+    <ClInclude Include="src\Retract\Components\Sprite.h" />
     <ClInclude Include="src\Retract\Core\Game.h" />
     <ClInclude Include="src\Retract\Types.h" />
     <ClInclude Include="src\Retract\Util\Logger.h" />

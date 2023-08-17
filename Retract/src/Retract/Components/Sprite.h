@@ -15,27 +15,41 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-// File Name: Component
+// File Name: Sprite
 // Date File Created: 08/17/2023
 // Author: Matt
 //
 // ------------------------------------------------------------------------------
+#pragma once
 
+#include "Retract/Common.h"
 #include "Component.h"
-#include "Entity.h"
+
+struct SDL_Renderer;
+struct SDL_Texture;
 
 namespace retract
 {
+class Entity;
 
-Component::Component(Entity* owner, i32 update_order): m_owner{owner}, m_update_order{update_order}
+class Sprite : public Component
 {
-    m_owner->AddComponent(this);
-}
+public:
+    Sprite(Entity* owner, i32 draw_order = 100);
+    virtual ~Sprite();
 
-Component::~Component()
-{
-    m_owner->RemoveComponent(this);
-}
+    virtual void Draw(SDL_Renderer* renderer);
+    virtual void SetTexture(SDL_Texture* texture);
 
-void Component::Update(f32 delta) {}
-}
+    [[nodiscard]] constexpr i32 DrawOrder() const { return m_draw_order; }
+    [[nodiscard]] constexpr i32 Width() const { return m_width; }
+    [[nodiscard]] constexpr i32 Height() const { return m_height; }
+
+protected:
+    i32          m_draw_order{ 100 };
+    SDL_Texture* m_texture{ nullptr };
+    i32          m_width{ 0 };
+    i32          m_height{ 0 };
+};
+
+} // namespace retract

@@ -32,8 +32,6 @@ namespace core
 class Game;
 }
 
-namespace components
-{
 class Component;
 
 class Entity
@@ -58,13 +56,23 @@ public:
     void RemoveComponent(Component* comp);
 
     constexpr State CurrentState() const { return m_state; }
+
+    core::Game* Game() const { return m_game; }
+
+    constexpr vec2 Position() const { return m_position; }
+    constexpr f32 Scale() const { return m_scale; }
+    constexpr f32 Rotation() const { return m_rotation; }
+
+    void SetPosition(const vec2& pos) { m_position = pos; }
+
 private:
-    State m_state;
-    core::Game* m_game;
+    State                   m_state;
+    core::Game*             m_game;
     utl::vector<Component*> m_components;
 
-    // TODO: transform data
+    vec2 m_position;
+    f32  m_scale{1.0f};
+    f32  m_rotation{0.0f};
 };
 
-}
 } // namespace retract

@@ -26,17 +26,17 @@
 #include "Component.h"
 #include "Retract/Core/Game.h"
 
-namespace retract::components
+namespace retract
 {
 
 Entity::Entity(core::Game* game) : m_state{State::active}, m_game{game}
 {
-    // TODO: add entity to game
+    game->AddEntity(this);
 }
 
 Entity::~Entity()
 {
-    // TODO: remove entity from game
+    m_game->RemoveEntity(this);
     while(!m_components.empty())
     {
         auto& comp = m_components.back();
@@ -63,11 +63,14 @@ void Entity::UpdateEntity(f32 delta) {}
 
 void Entity::AddComponent(Component* comp)
 {
+    LOG_INFO("Add comp");
     i32 order = comp->UpdateOrder();
     auto it = m_components.begin();
-    while(it++ != m_components.end())
+    LOG_INFO("Inc iter");
+    while(it != m_components.end())
     {
         if(order < (*it)->UpdateOrder()) break;
+        ++it;
     }
 
     m_components.insert(it, comp);
@@ -75,6 +78,7 @@ void Entity::AddComponent(Component* comp)
 
 void Entity::RemoveComponent(Component* comp)
 {
+    LOG_INFO("Remove comp");
     auto it = std::ranges::find(m_components, comp);
     if(it != m_components.end())
     {
