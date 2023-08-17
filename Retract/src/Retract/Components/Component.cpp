@@ -15,16 +15,27 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-// File Name: Common
+// File Name: Component
 // Date File Created: 08/17/2023
 // Author: Matt
 //
 // ------------------------------------------------------------------------------
-#pragma once
 
-#include <cassert>
-#include <unordered_map>
+#include "Component.h"
+#include "Entity.h"
 
-#include "Types.h"
-#include "Util/Logger.h"
-#include "Util/Util.h"
+namespace retract::components
+{
+
+Component::Component(Entity* owner, i32 update_order): m_owner{owner}, m_update_order{update_order}
+{
+    m_owner->AddComponent(this);
+}
+
+Component::~Component()
+{
+    m_owner->RemoveComponent(this);
+}
+
+void Component::Update(f32 delta) {}
+}

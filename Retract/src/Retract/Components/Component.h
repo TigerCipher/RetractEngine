@@ -15,16 +15,31 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-// File Name: Common
+// File Name: Component
 // Date File Created: 08/17/2023
 // Author: Matt
 //
 // ------------------------------------------------------------------------------
 #pragma once
 
-#include <cassert>
-#include <unordered_map>
+#include "Retract/Common.h"
 
-#include "Types.h"
-#include "Util/Logger.h"
-#include "Util/Util.h"
+namespace retract::components
+{
+class Entity;
+
+class Component
+{
+public:
+    explicit Component(Entity* owner, i32 update_order = 100);
+    virtual ~Component();
+
+    virtual void Update(f32 delta);
+
+    [[nodiscard]] constexpr i32 UpdateOrder() const { return m_update_order; }
+
+private:
+    Entity* m_owner{ nullptr };
+    i32     m_update_order{};
+};
+} // namespace retract::components

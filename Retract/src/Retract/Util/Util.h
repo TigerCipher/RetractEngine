@@ -15,16 +15,20 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-// File Name: Common
+// File Name: Util
 // Date File Created: 08/17/2023
 // Author: Matt
 //
 // ------------------------------------------------------------------------------
 #pragma once
 
-#include <cassert>
-#include <unordered_map>
+#define USE_STL_VECTOR 1
 
-#include "Types.h"
-#include "Util/Logger.h"
-#include "Util/Util.h"
+#if USE_STL_VECTOR
+    #include <vector>
+namespace retract::utl
+{
+template<typename T>
+using vector = std::vector<T>;
+}
+#endif
