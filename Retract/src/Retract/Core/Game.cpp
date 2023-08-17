@@ -23,20 +23,18 @@
 
 #include "Game.h"
 
-#include "Retract/Types.h"
-
 #include <SDL.h>
 
-#include <iostream>
 
 namespace retract::core
 {
 
 bool Game::Initialize()
 {
+    LOG_TRACE("ReactEngine initializing");
     if (SDL_Init(SDL_INIT_VIDEO))
     {
-        std::cerr << "Failed to initialize SDL: " << SDL_GetError() << std::endl;
+        LOG_ERROR("Failed to initialize SDL: {}", SDL_GetError());
         return false;
     }
 
@@ -44,7 +42,14 @@ bool Game::Initialize()
 
     if (!m_window)
     {
-        std::cerr << "Failed to create window: " << SDL_GetError() << std::endl;
+        LOG_ERROR("Failed to create window: {}", SDL_GetError());
+        return false;
+    }
+
+    m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    if(!m_renderer)
+    {
+        LOG_ERROR("Failed to create renderer: {}", SDL_GetError());
         return false;
     }
 
@@ -52,8 +57,13 @@ bool Game::Initialize()
     return true;
 }
 
-void Game::Run()
+i32 Game::Run()
 {
+    if(!Initialize())
+    {
+        LOG_FATAL("ReactEngine failed to initialize");
+        return -1;
+    }
     m_running = true;
     while (m_running)
     {
@@ -61,10 +71,15 @@ void Game::Run()
         Update();
         Render();
     }
+
+    Shutdown();
+    return 0;
 }
 
 void Game::Shutdown() const
 {
+    LOG_TRACE("ReactEngine shutting down");
+    SDL_DestroyRenderer(m_renderer);
     SDL_DestroyWindow(m_window);
     SDL_Quit();
 }
@@ -79,8 +94,20 @@ void Game::ProcessInput()
         case SDL_QUIT: m_running = false; break;
         }
     }
+
+    const u8* key_state = SDL_GetKeyboardState(nullptr);
+    if(key_state[SDL_SCANCODE_ESCAPE])
+    {
+        m_running = false;
+    }
 }
 
 void Game::Update() {}
-void Game::Render() {}
+void Game::Render()
+{
+    SDL_SetRenderDrawColor(m_renderer, 52, 15, 15, 255);
+    SDL_RenderClear(m_renderer);
+
+    SDL_RenderPresent(m_renderer);
+}
 } // namespace retract::core

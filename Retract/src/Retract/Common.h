@@ -15,43 +15,15 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-// File Name: Main
+// File Name: Common
 // Date File Created: 08/17/2023
 // Author: Matt
 //
 // ------------------------------------------------------------------------------
+#pragma once
 
-#include "Retract/Core/Game.h"
+#include <cassert>
+#include <unordered_map>
 
-#pragma comment(lib, "Retract.lib")
-
-#ifndef WIN32_LEAN_AND_MEAN
-    #define WIN32_LEAN_AND_MEAN
-#endif
-
-#include <Windows.h>
-#include <crtdbg.h>
-
-
-using namespace retract;
-
-class Sandbox : public core::Game
-{
-public:
-    Sandbox() : Game() {}
-
-    void Init() override { LOG_INFO("Sandbox game initialized"); }
-};
-
-//int main(int argc, char* argv[])
-int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
-{
-#if _DEBUG
-    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-#endif
-    Sandbox game{};
-
-    const i32 status = game.Run();
-
-    return status;
-}
+#include "Types.h"
+#include "Util/Logger.h"

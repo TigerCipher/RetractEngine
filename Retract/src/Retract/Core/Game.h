@@ -23,7 +23,10 @@
 
 #pragma once
 
+#include "Retract/Common.h"
+
 struct SDL_Window;
+struct SDL_Renderer;
 
 namespace retract::core
 {
@@ -35,7 +38,7 @@ public:
     virtual ~Game() = default;
 
     bool Initialize();
-    void Run();
+    i32 Run(); // returns 0 if no issues
     void Shutdown() const;
 
     virtual void Init() = 0;
@@ -46,6 +49,7 @@ private:
 
     bool m_running{false};
     SDL_Window* m_window{nullptr};
+    SDL_Renderer* m_renderer{nullptr}; // TODO: Testing purposes only
 };
 
 }
