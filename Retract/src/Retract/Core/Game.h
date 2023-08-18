@@ -44,9 +44,7 @@ public:
     Game()          = default;
     virtual ~Game() = default;
 
-    bool Initialize();
     i32  Run(); // returns 0 if no issues
-    void Shutdown();
 
     virtual void Init() = 0;
 
@@ -56,9 +54,11 @@ public:
     void AddSprite(Sprite* sprite);
     void RemoveSprite(Sprite* sprite);
 
-    SDL_Texture* GetTexture(const char* filename);
+    SDL_Texture* GetTexture(const char* filename); // TODO: Add to a resource manager instead
 
 private:
+    bool InitializeInternal();
+    void ShutdownInternal();
     void ProcessInput();
     void Update();
     void Render();

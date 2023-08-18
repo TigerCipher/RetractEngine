@@ -45,7 +45,7 @@ struct FrameInfo
 FrameInfo frame_info{};
 } // anonymous namespace
 
-bool Game::Initialize()
+bool Game::InitializeInternal()
 {
     LOG_TRACE("ReactEngine initializing");
     if (SDL_Init(SDL_INIT_VIDEO))
@@ -81,7 +81,7 @@ bool Game::Initialize()
 
 i32 Game::Run()
 {
-    if (!Initialize())
+    if (!InitializeInternal())
     {
         LOG_FATAL("ReactEngine failed to initialize");
         return -1;
@@ -108,11 +108,11 @@ i32 Game::Run()
         }
     }
 
-    Shutdown();
+    ShutdownInternal();
     return 0;
 }
 
-void Game::Shutdown()
+void Game::ShutdownInternal()
 {
     LOG_TRACE("ReactEngine shutting down");
     IMG_Quit();
