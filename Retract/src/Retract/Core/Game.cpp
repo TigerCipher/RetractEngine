@@ -47,6 +47,7 @@ FrameInfo frame_info{};
 
 bool Game::InitializeInternal()
 {
+    random::Init();
     LOG_TRACE("ReactEngine initializing");
     if (SDL_Init(SDL_INIT_VIDEO))
     {

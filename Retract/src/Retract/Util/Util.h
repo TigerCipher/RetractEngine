@@ -22,6 +22,11 @@
 // ------------------------------------------------------------------------------
 #pragma once
 
+#include "Retract/Types.h"
+#include "Math.h"
+
+#include <random>
+
 #define USE_STL_VECTOR 1
 
 #if USE_STL_VECTOR
@@ -32,3 +37,18 @@ template<typename T>
 using vector = std::vector<T>;
 }
 #endif
+
+namespace retract::random
+{
+
+void Init();
+void Seed(u32 seed);
+
+f32 Float(f32 min = 0.f, f32 max = 1.f);
+i32 Int(i32 min, i32 max);
+
+vec2 Vector(const vec2& min, const vec2& max);
+vec3 Vector(const vec3& min, const vec3& max);
+
+
+} // namespace retract::random

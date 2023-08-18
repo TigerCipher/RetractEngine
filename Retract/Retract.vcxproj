@@ -145,6 +145,7 @@
     <ClCompile Include="src\Retract\Core\Game.cpp" />
     <ClCompile Include="src\Retract\Util\Logger.cpp" />
     <ClCompile Include="src\Retract\Util\Math.cpp" />
+    <ClCompile Include="src\Retract\Util\Util.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
