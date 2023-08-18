@@ -29,6 +29,7 @@
     #define WIN32_LEAN_AND_MEAN
 #endif
 
+#include "Background.h"
 #include "Retract/Components/Entity.h"
 #include "Retract/Components/Sprite.h"
 
@@ -69,6 +70,7 @@ public:
     {
         //RemoveEntity(asteroid);
         delete asteroid;
+        delete temp;
     }
 
     void Init() override
@@ -76,10 +78,30 @@ public:
         LOG_INFO("Sandbox game initialized");
         asteroid = new Asteroid(this);
         AddEntity(asteroid);
+
+        temp = new Entity(this);
+        temp->SetPosition({512, 400});
+        Background* bg = new Background(temp);
+        bg->SetScreenSize({1000, 800});
+        utl::vector<SDL_Texture*> bgtex{
+            GetTexture("./Content/bg01.png"),
+            GetTexture("./Content/bg02.png"),
+        };
+        bg->SetTextures(bgtex);
+        bg->SetScrollSpeed(-100.f);
+
+        bg = new Background(temp, 50);
+        bg->SetScreenSize({1000, 800});
+        bgtex.clear();
+        bgtex.emplace_back(GetTexture("./Content/stars.png"));
+        bgtex.emplace_back(GetTexture("./Content/stars.png"));
+        bg->SetTextures(bgtex);
+        bg->SetScrollSpeed(-200.f);
     }
 
 private:
     Asteroid* asteroid{ nullptr };
+    Entity* temp{nullptr};
 };
 
 //int main(int argc, char* argv[])

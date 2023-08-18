@@ -87,11 +87,25 @@ i32 Game::Run()
         return -1;
     }
     m_running = true;
+    u32 st    = SDL_GetTicks();
     while (m_running)
     {
+        const u32 start_time = SDL_GetTicks();
         ProcessInput();
         Update();
         Render();
+
+        const u32   frame_time = SDL_GetTicks() - start_time;
+        f32         fps        = (frame_time > 0) ? 1000.0f / (f32)frame_time : 0.0f;
+        std::string title      = std::format("RetractEngine - FPS: {:.5f}", fps);
+        SDL_SetWindowTitle(m_window, title.c_str());
+
+        const u32 elapsed = SDL_GetTicks() - st;
+        if (elapsed >= 1000)
+        {
+            LOG_TRACE("FPS: {:.5f}", fps);
+            st = SDL_GetTicks();
+        }
     }
 
     Shutdown();
@@ -136,10 +150,11 @@ void Game::RemoveEntity(Entity* entity)
 void Game::AddSprite(Sprite* sprite)
 {
     const i32 draw_order = sprite->DrawOrder();
-    auto it = m_sprites.begin();
-    while(it != m_sprites.end())
+    auto      it         = m_sprites.begin();
+    while (it != m_sprites.end())
     {
-        if(draw_order < (*it)->DrawOrder()) break;
+        if (draw_order < (*it)->DrawOrder())
+            break;
         ++it;
     }
 
@@ -246,7 +261,7 @@ void Game::Render()
     SDL_SetRenderDrawColor(m_renderer, 52, 15, 15, 255);
     SDL_RenderClear(m_renderer);
 
-    for(auto* spr : m_sprites)
+    for (auto* spr : m_sprites)
     {
         spr->Draw(m_renderer);
     }

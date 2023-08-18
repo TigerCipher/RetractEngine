@@ -15,33 +15,36 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-// File Name: Common
-// Date File Created: 08/17/2023
+// File Name: Background
+// Date File Created: 08/18/2023
 // Author: Matt
 //
 // ------------------------------------------------------------------------------
 #pragma once
 
-#include <cassert>
-#include <unordered_map>
+#include "Retract/Components/Sprite.h"
 
-#include "Types.h"
-#include "Util/Math.h"
-#include "Util/Logger.h"
-#include "Util/Util.h"
-
-
-constexpr auto operator""_KB(const u64 x)
+class Background : public retract::Sprite
 {
-    return x * 1024u;
-}
+public:
+    Background(class retract::Entity* owner, i32 draw_order = 10) : Sprite{owner, draw_order} {}
 
-constexpr auto operator""_MB(const u64 x)
-{
-    return x * 1024u * 1024u;
-}
+    void Update(f32 delta) override;
+    void Draw(SDL_Renderer* renderer) override;
 
-constexpr auto operator""_GB(const u64 x)
-{
-    return x * 1024u * 1024u * 1024u;
-}
+    void SetTextures(const retract::utl::vector<SDL_Texture*>& textures);
+
+    void SetScreenSize(const vec2& size) { m_screen_size = size; }
+    void SetScrollSpeed(f32 speed) { m_scroll_speed = speed; }
+    constexpr f32 ScrollSpeed() const { return m_scroll_speed; }
+private:
+    struct BgTexture
+    {
+        SDL_Texture* texture{nullptr};
+        vec2 offset{};
+    };
+
+    retract::utl::vector<BgTexture> m_bg_textures{};
+    vec2 m_screen_size{};
+    f32 m_scroll_speed{};
+};

@@ -156,6 +156,7 @@
     <ClInclude Include="src\Retract\Core\Game.h" />
     <ClInclude Include="src\Retract\Types.h" />
     <ClInclude Include="src\Retract\Util\Logger.h" />
+    <ClInclude Include="src\Retract\Util\Math.h" />
     <ClInclude Include="src\Retract\Util\Util.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
