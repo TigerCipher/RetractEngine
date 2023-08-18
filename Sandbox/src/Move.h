@@ -15,36 +15,30 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-// File Name: Background
+// File Name: Move
 // Date File Created: 08/18/2023
 // Author: Matt
 //
 // ------------------------------------------------------------------------------
+
 #pragma once
+#include "Retract/Components/Component.h"
 
-#include "Retract/Components/Sprite.h"
 
-class Background : public retract::Sprite
+class Move : public retract::Component
 {
 public:
-    Background(retract::Entity* owner, i32 draw_order = 10) : Sprite{owner, draw_order} {}
-
+    Move(retract::Entity* owner, i32 update_order = 10) : Component{owner, update_order} {}
     void Update(f32 delta) override;
-    void Draw(SDL_Renderer* renderer) override;
 
-    void SetTextures(const retract::utl::vector<SDL_Texture*>& textures);
+    constexpr f32 AngularSpeed() const { return m_angular_speed; }
+    constexpr f32 ForwardSpeed() const { return m_forward_speed; }
 
-    void SetScreenSize(const vec2& size) { m_screen_size = size; }
-    void SetScrollSpeed(f32 speed) { m_scroll_speed = speed; }
-    constexpr f32 ScrollSpeed() const { return m_scroll_speed; }
+    void SetAngularSpeed(f32 speed) { m_angular_speed = speed; }
+    void SetForwardSpeed(f32 speed) { m_forward_speed = speed; }
+
 private:
-    struct BgTexture
-    {
-        SDL_Texture* texture{nullptr};
-        vec2 offset{};
-    };
+    f32 m_angular_speed{};
+    f32 m_forward_speed{};
 
-    retract::utl::vector<BgTexture> m_bg_textures{};
-    vec2 m_screen_size{};
-    f32 m_scroll_speed{};
 };

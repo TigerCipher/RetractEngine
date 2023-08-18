@@ -15,36 +15,35 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-// File Name: Background
+// File Name: Circle
 // Date File Created: 08/18/2023
 // Author: Matt
 //
 // ------------------------------------------------------------------------------
-#pragma once
 
-#include "Retract/Components/Sprite.h"
+#include "Circle.h"
 
-class Background : public retract::Sprite
+
+#include "Retract/Components/Entity.h"
+
+using namespace retract;
+
+f32 Circle::Radius() const
 {
-public:
-    Background(retract::Entity* owner, i32 draw_order = 10) : Sprite{owner, draw_order} {}
+    return m_owner->Scale() * m_radius;
+}
 
-    void Update(f32 delta) override;
-    void Draw(SDL_Renderer* renderer) override;
+const vec2& Circle::Center() const
+{
+    return m_owner->Position();
+}
 
-    void SetTextures(const retract::utl::vector<SDL_Texture*>& textures);
+bool Intersect(const Circle& a, const Circle& b)
+{
+    vec2 diff    = a.Center() - b.Center();
+    f32  diffsq  = diff.LengthSq();
+    f32  radiisq = a.Radius() + b.Radius();
+    radiisq *= radiisq;
 
-    void SetScreenSize(const vec2& size) { m_screen_size = size; }
-    void SetScrollSpeed(f32 speed) { m_scroll_speed = speed; }
-    constexpr f32 ScrollSpeed() const { return m_scroll_speed; }
-private:
-    struct BgTexture
-    {
-        SDL_Texture* texture{nullptr};
-        vec2 offset{};
-    };
-
-    retract::utl::vector<BgTexture> m_bg_textures{};
-    vec2 m_screen_size{};
-    f32 m_scroll_speed{};
-};
+    return diffsq <= radiisq;
+}

@@ -59,12 +59,15 @@ public:
 
     core::Game* Game() const { return m_game; }
 
-    vec2& Position() { return m_position; }
     constexpr vec2 Position() const { return m_position; }
-    constexpr f32 Scale() const { return m_scale; }
-    constexpr f32 Rotation() const { return m_rotation; }
+    constexpr f32  Scale() const { return m_scale; }
+    constexpr f32  Rotation() const { return m_rotation; }
 
     void SetPosition(const vec2& pos) { m_position = pos; }
+    void SetScale(const f32 scale) { m_scale = scale; }
+    void SetRotation(const f32 rotation) { m_rotation = rotation; }
+
+    vec2 Forward() const { return { cosf(m_rotation), -sinf(m_rotation) }; }
 
 private:
     State                   m_state;
@@ -72,8 +75,8 @@ private:
     utl::vector<Component*> m_components;
 
     vec2 m_position;
-    f32  m_scale{1.0f};
-    f32  m_rotation{0.0f};
+    f32  m_scale{ 1.0f };
+    f32  m_rotation{ 0.0f };
 };
 
 } // namespace retract

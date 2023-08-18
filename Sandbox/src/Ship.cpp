@@ -40,7 +40,7 @@ Ship::Ship(retract::core::Game* game) : Entity{ game }
 void Ship::UpdateEntity(f32 delta)
 {
     Entity::UpdateEntity(delta);
-    vec2& pos = Position();
+    vec2 pos = Position();
     pos.x += m_right_speed * delta;
     pos.y += m_down_speed * delta;
 
@@ -52,6 +52,7 @@ void Ship::UpdateEntity(f32 delta)
         pos.y = 25.0f;
     else if (pos.y > 743.0f)
         pos.y = 743.0f;
+    SetPosition(pos);
 }
 void Ship::ProcessKeyboard(const u8* state)
 {

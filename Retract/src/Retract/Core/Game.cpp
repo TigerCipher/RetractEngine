@@ -30,6 +30,7 @@
 #include <SDL_image.h>
 
 #include <algorithm>
+#include <ranges>
 
 
 namespace retract::core
@@ -116,6 +117,19 @@ i32 Game::Run()
 void Game::ShutdownInternal()
 {
     LOG_TRACE("ReactEngine shutting down");
+
+    // Unload data
+    while (!m_entities.empty())
+    {
+        delete m_entities.back();
+    }
+
+    for(const auto val : m_textures | std::views::values)
+    {
+        SDL_DestroyTexture(val);
+    }
+    m_textures.clear();
+
     IMG_Quit();
     SDL_DestroyRenderer(m_renderer);
     SDL_DestroyWindow(m_window);

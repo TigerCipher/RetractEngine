@@ -15,36 +15,43 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-// File Name: Background
+// File Name: Move
 // Date File Created: 08/18/2023
 // Author: Matt
 //
 // ------------------------------------------------------------------------------
-#pragma once
 
-#include "Retract/Components/Sprite.h"
+#include "Move.h"
 
-class Background : public retract::Sprite
+
+#include "Retract/Components/Entity.h"
+
+using namespace retract;
+
+void Move::Update(f32 delta)
 {
-public:
-    Background(retract::Entity* owner, i32 draw_order = 10) : Sprite{owner, draw_order} {}
-
-    void Update(f32 delta) override;
-    void Draw(SDL_Renderer* renderer) override;
-
-    void SetTextures(const retract::utl::vector<SDL_Texture*>& textures);
-
-    void SetScreenSize(const vec2& size) { m_screen_size = size; }
-    void SetScrollSpeed(f32 speed) { m_scroll_speed = speed; }
-    constexpr f32 ScrollSpeed() const { return m_scroll_speed; }
-private:
-    struct BgTexture
+    if(!math::NearZero(m_angular_speed))
     {
-        SDL_Texture* texture{nullptr};
-        vec2 offset{};
-    };
+        f32 rot = m_owner->Rotation();
+        rot += m_angular_speed * delta;
+        m_owner->SetRotation(rot);
+    }
 
-    retract::utl::vector<BgTexture> m_bg_textures{};
-    vec2 m_screen_size{};
-    f32 m_scroll_speed{};
-};
+    if(!math::NearZero(m_forward_speed))
+    {
+        vec2 pos = m_owner->Position();
+        pos += m_owner->Forward() * m_forward_speed * delta;
+        if (pos.x < 0.0f)
+            pos.x = 998.0f;
+        else if (pos.x > 1000.0f)
+            pos.x = 2.0f;
+
+        if (pos.y < 0.0f)
+            pos.y = 798.0f;
+        else if (pos.y > 800.0f)
+            pos.y = 2.0f;
+
+        m_owner->SetPosition(pos);
+        
+    }
+}

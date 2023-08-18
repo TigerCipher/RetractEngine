@@ -33,6 +33,8 @@
 #include "Retract/Components/Sprite.h"
 #include "Background.h"
 #include "Ship.h"
+#include "Circle.h"
+#include "Move.h"
 
 
 #include <Windows.h>
@@ -41,53 +43,84 @@
 
 using namespace retract;
 
+class Asteroid;
+namespace
+{
+u32                    asteroidCount{};
+utl::vector<Asteroid*> asteroids;
+
+void AddAsteroid(Asteroid* asteroid)
+{
+    asteroids.emplace_back(asteroid);
+}
+
+void RemoveAsteroid(Asteroid* asteroid)
+{
+    auto iter = std::ranges::find(asteroids, asteroid);
+    if (iter != asteroids.end())
+    {
+        asteroids.erase(iter);
+    }
+}
+} // anonymous namespace
+
+class Sandbox;
 
 class Asteroid : public Entity
 {
 public:
     Asteroid(core::Game* game) : Entity{ game }
     {
+        vec2 pos = random::Vector(math::zero_vec2, { 1000, 800 });
+        SetPosition(pos);
+        SetRotation(random::Float(0.f, math::two_pi));
         m_sprite = new Sprite(this);
         m_sprite->SetTexture(game->GetTexture("./Content/asteroid.png"));
-        SetPosition({ 100, 100 });
+
+        m_circle = new Circle(this);
+        m_circle->SetRadius(40.f);
+
+        mc = new Move(this);
+        mc->SetForwardSpeed(150.f);
+        ++asteroidCount;
+        AddAsteroid(this);
     }
     ~Asteroid() override
     {
-        LOG_WARN("Deleting asteroid");
-        delete m_sprite;
+        LOG_WARN("Deleting asteroid {}", asteroidCount);
+        --asteroidCount;
+        RemoveAsteroid(this);
+        //delete m_sprite;
+        //delete m_circle;
+        //delete mc;
     }
     void UpdateEntity(f32 delta) override {}
 
 private:
-    Sprite* m_sprite;
+    Sprite* m_sprite{ nullptr };
+    Circle* m_circle{ nullptr };
+    Move*   mc{ nullptr };
 };
 
 class Sandbox : public core::Game
 {
 public:
-    Sandbox() : Game() {  }
+    Sandbox() : Game() {}
 
-    ~Sandbox() override
-    {
-        //RemoveEntity(asteroid);
-        delete asteroid;
-        delete temp;
-        delete ship;
-    }
 
     void Init() override
     {
         LOG_INFO("Sandbox game initialized");
-        asteroid = new Asteroid(this);
+        //asteroid = new Asteroid(this);
         //AddEntity(asteroid);
 
         ship = new Ship(this);
-        ship->SetPosition({100.f, 384.f});
-        
+        ship->SetPosition({ 100.f, 384.f });
 
-        temp = new Entity(this);
+
+        auto* temp = new Entity(this);
         temp->SetPosition({ 512, 400 });
-        Background* bg = new Background(temp);
+        auto* bg = new Background(temp);
         bg->SetScreenSize({ 1000, 800 });
         utl::vector<SDL_Texture*> bgtex{
             GetTexture("./Content/bg01.png"),
@@ -103,16 +136,17 @@ public:
         bgtex.emplace_back(GetTexture("./Content/stars.png"));
         bg->SetTextures(bgtex);
         bg->SetScrollSpeed(-200.f);
+
+        constexpr u32 numAsteroids = 20;
+        for (u32 i = 0; i < numAsteroids; ++i)
+        {
+            new Asteroid(this);
+        }
     }
-    void ProcessInput(const u8* key_state) override
-    {
-        ship->ProcessKeyboard(key_state);
-    }
+    void ProcessInput(const u8* key_state) override { ship->ProcessKeyboard(key_state); }
 
 private:
-    Asteroid* asteroid{ nullptr };
-    Entity* temp{nullptr};
-    Ship* ship{nullptr};
+    Ship* ship{ nullptr };
 };
 
 //int main(int argc, char* argv[])
