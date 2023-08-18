@@ -29,9 +29,10 @@
     #define WIN32_LEAN_AND_MEAN
 #endif
 
-#include "Background.h"
 #include "Retract/Components/Entity.h"
 #include "Retract/Components/Sprite.h"
+#include "Background.h"
+#include "Ship.h"
 
 
 #include <Windows.h>
@@ -71,18 +72,23 @@ public:
         //RemoveEntity(asteroid);
         delete asteroid;
         delete temp;
+        delete ship;
     }
 
     void Init() override
     {
         LOG_INFO("Sandbox game initialized");
         asteroid = new Asteroid(this);
-        AddEntity(asteroid);
+        //AddEntity(asteroid);
+
+        ship = new Ship(this);
+        ship->SetPosition({100.f, 384.f});
+        
 
         temp = new Entity(this);
-        temp->SetPosition({512, 400});
+        temp->SetPosition({ 512, 400 });
         Background* bg = new Background(temp);
-        bg->SetScreenSize({1000, 800});
+        bg->SetScreenSize({ 1000, 800 });
         utl::vector<SDL_Texture*> bgtex{
             GetTexture("./Content/bg01.png"),
             GetTexture("./Content/bg02.png"),
@@ -91,17 +97,22 @@ public:
         bg->SetScrollSpeed(-100.f);
 
         bg = new Background(temp, 50);
-        bg->SetScreenSize({1000, 800});
+        bg->SetScreenSize({ 1000, 800 });
         bgtex.clear();
         bgtex.emplace_back(GetTexture("./Content/stars.png"));
         bgtex.emplace_back(GetTexture("./Content/stars.png"));
         bg->SetTextures(bgtex);
         bg->SetScrollSpeed(-200.f);
     }
+    void ProcessInput(const u8* key_state) override
+    {
+        ship->ProcessKeyboard(key_state);
+    }
 
 private:
     Asteroid* asteroid{ nullptr };
     Entity* temp{nullptr};
+    Ship* ship{nullptr};
 };
 
 //int main(int argc, char* argv[])

@@ -91,7 +91,7 @@ i32 Game::Run()
     while (m_running)
     {
         const u32 start_time = SDL_GetTicks();
-        ProcessInput();
+        ProcessInputInternal();
         Update();
         Render();
 
@@ -198,7 +198,7 @@ SDL_Texture* Game::LoadTexture(const char* filename)
     return tex;
 }
 
-void Game::ProcessInput()
+void Game::ProcessInputInternal()
 {
     SDL_Event event;
     while (SDL_PollEvent(&event))
@@ -214,6 +214,8 @@ void Game::ProcessInput()
     {
         m_running = false;
     }
+
+    ProcessInput(key_state);
 }
 
 void Game::Update()

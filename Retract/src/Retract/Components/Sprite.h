@@ -25,8 +25,7 @@
 #include "Retract/Common.h"
 #include "Component.h"
 
-struct SDL_Renderer;
-struct SDL_Texture;
+#include <SDL.h>
 
 namespace retract
 {
@@ -50,6 +49,23 @@ protected:
     SDL_Texture* m_texture{ nullptr };
     i32          m_width{ 0 };
     i32          m_height{ 0 };
+};
+
+class AnimatedSprite : public Sprite
+{
+public:
+    AnimatedSprite(Entity* owner, i32 draw_order = 100) : Sprite(owner, draw_order) {}
+
+    void Update(f32 delta) override;
+
+    void SetTextures(const utl::vector<SDL_Texture*>& textures);
+
+    constexpr f32 Fps() const { return m_fps; }
+    void SetFps(f32 fps) { m_fps = fps; }
+private:
+    utl::vector<SDL_Texture*> m_textures{};
+    f32 m_current_frame{};
+    f32 m_fps{24.0f};
 };
 
 } // namespace retract

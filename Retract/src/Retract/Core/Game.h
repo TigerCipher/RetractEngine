@@ -47,6 +47,7 @@ public:
     i32  Run(); // returns 0 if no issues
 
     virtual void Init() = 0;
+    virtual void ProcessInput(const u8* key_state) = 0;
 
     void AddEntity(Entity* entity);
     void RemoveEntity(Entity* entity);
@@ -59,7 +60,7 @@ public:
 private:
     bool InitializeInternal();
     void ShutdownInternal();
-    void ProcessInput();
+    void ProcessInputInternal();
     void Update();
     void Render();
     SDL_Texture* LoadTexture(const char* filename);

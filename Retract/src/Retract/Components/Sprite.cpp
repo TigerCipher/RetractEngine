@@ -68,4 +68,28 @@ void Sprite::SetTexture(SDL_Texture* texture)
     m_texture = texture;
     SDL_QueryTexture(texture, nullptr, nullptr, &m_width, &m_height);
 }
+
+
+void AnimatedSprite::Update(f32 delta)
+{
+    Sprite::Update(delta);
+
+    if(m_textures.empty()) return;
+
+    m_current_frame += m_fps * delta;
+    while(m_current_frame >= (f32)m_textures.size())
+    {
+        m_current_frame -= (f32) m_textures.size();
+    }
+    SetTexture(m_textures[(u32)m_current_frame]);
+}
+
+void AnimatedSprite::SetTextures(const utl::vector<SDL_Texture*>& textures)
+{
+    m_textures = textures;
+    if(m_textures.empty()) return;
+    m_current_frame = 0.0f;
+    SetTexture(m_textures[0]);
+}
+
 }

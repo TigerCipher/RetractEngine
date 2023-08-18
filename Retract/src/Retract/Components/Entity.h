@@ -59,6 +59,7 @@ public:
 
     core::Game* Game() const { return m_game; }
 
+    vec2& Position() { return m_position; }
     constexpr vec2 Position() const { return m_position; }
     constexpr f32 Scale() const { return m_scale; }
     constexpr f32 Rotation() const { return m_rotation; }

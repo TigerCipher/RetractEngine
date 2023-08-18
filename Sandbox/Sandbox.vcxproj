@@ -145,12 +145,14 @@
   <ItemGroup>
     <ClCompile Include="src\Background.cpp" />
     <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\Ship.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Background.h" />
+    <ClInclude Include="src\Ship.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

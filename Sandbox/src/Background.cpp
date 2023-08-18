@@ -25,7 +25,6 @@
 
 #include "Retract/Components/Entity.h"
 
-#include <SDL.h>
 
 using namespace retract;
 
