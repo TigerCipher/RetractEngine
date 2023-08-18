@@ -98,7 +98,7 @@ i32 Game::Run()
     return 0;
 }
 
-void Game::Shutdown() const
+void Game::Shutdown()
 {
     LOG_TRACE("ReactEngine shutting down");
     IMG_Quit();

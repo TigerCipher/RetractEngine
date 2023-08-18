@@ -49,7 +49,11 @@ public:
         m_sprite->SetTexture(game->GetTexture("./Content/asteroid.png"));
         SetPosition({ 100, 100 });
     }
-    ~Asteroid() override { delete m_sprite; }
+    ~Asteroid() override
+    {
+        LOG_WARN("Deleting asteroid");
+        delete m_sprite;
+    }
     void UpdateEntity(f32 delta) override {}
 
 private:
@@ -59,13 +63,19 @@ private:
 class Sandbox : public core::Game
 {
 public:
-    Sandbox() : Game() {}
+    Sandbox() : Game() {  }
+
+    ~Sandbox() override { delete asteroid; }
 
     void Init() override
     {
         LOG_INFO("Sandbox game initialized");
-        AddEntity(new Asteroid(this));
+        asteroid = new Asteroid(this);
+        AddEntity(asteroid);
     }
+
+private:
+    Asteroid* asteroid{ nullptr };
 };
 
 //int main(int argc, char* argv[])

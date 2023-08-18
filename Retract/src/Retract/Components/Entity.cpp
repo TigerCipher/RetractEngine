@@ -36,6 +36,7 @@ Entity::Entity(core::Game* game) : m_state{State::active}, m_game{game}
 
 Entity::~Entity()
 {
+    LOG_WARN("Deleting entity");
     m_game->RemoveEntity(this);
     while(!m_components.empty())
     {

@@ -46,7 +46,7 @@ public:
 
     bool Initialize();
     i32  Run(); // returns 0 if no issues
-    void Shutdown() const;
+    void Shutdown();
 
     virtual void Init() = 0;
 
