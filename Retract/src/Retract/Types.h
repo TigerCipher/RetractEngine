@@ -47,6 +47,12 @@ constexpr u64 u64_invalid_id = 0xffff'ffff'ffff'ffffui64;
 using f32 = float;
 using f64 = double;
 
+template<typename T, typename... Args>
+concept constructible_from_args = std::constructible_from<T, Args...>;
+
+template<typename T>
+concept primitive_type = std::is_arithmetic_v<T>;
+
 template<typename T>
 using scope = std::unique_ptr<T>;
 
@@ -54,12 +60,14 @@ template<typename T>
 using ref = std::shared_ptr<T>;
 
 template<typename T, typename... Args>
+    requires constructible_from_args<T, Args...>
 constexpr scope<T> CreateScope(Args&&... args)
 {
     return std::make_unique<T>(std::forward<Args>(args)...);
 }
 
 template<typename T, typename... Args>
+    requires constructible_from_args<T, Args...>
 constexpr ref<T> CreateRef(Args&&... args)
 {
     return std::make_shared<T>(std::forward<Args>(args)...);

@@ -118,6 +118,7 @@ void Game::AddEntity(Entity* entity)
 }
 void Game::RemoveEntity(Entity* entity)
 {
+    LOG_INFO("Removing entity");
     auto it = std::ranges::find(m_pending_entities, entity);
     if (it != m_pending_entities.end())
     {

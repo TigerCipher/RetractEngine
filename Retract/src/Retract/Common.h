@@ -30,6 +30,21 @@
 #include "Util/Util.h"
 
 
+constexpr auto operator""_KB(const u64 x)
+{
+    return x * 1024u;
+}
+
+constexpr auto operator""_MB(const u64 x)
+{
+    return x * 1024u * 1024u;
+}
+
+constexpr auto operator""_GB(const u64 x)
+{
+    return x * 1024u * 1024u * 1024u;
+}
+
 // TEMP
 struct Vector2
 {

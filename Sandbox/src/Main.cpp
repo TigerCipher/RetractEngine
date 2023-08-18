@@ -65,7 +65,11 @@ class Sandbox : public core::Game
 public:
     Sandbox() : Game() {  }
 
-    ~Sandbox() override { delete asteroid; }
+    ~Sandbox() override
+    {
+        //RemoveEntity(asteroid);
+        delete asteroid;
+    }
 
     void Init() override
     {
