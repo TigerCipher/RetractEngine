@@ -143,7 +143,6 @@ public:
             new Asteroid(this);
         }
     }
-    void ProcessInput(const u8* key_state) override { ship->ProcessKeyboard(key_state); }
 
 private:
     Ship* ship{ nullptr };

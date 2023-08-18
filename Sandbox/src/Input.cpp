@@ -15,32 +15,37 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-// File Name: Component
-// Date File Created: 08/17/2023
+// File Name: Input
+// Date File Created: 08/18/2023
 // Author: Matt
 //
 // ------------------------------------------------------------------------------
-#pragma once
+#include "Input.h"
 
-#include "Retract/Common.h"
 
-namespace retract
+void Input::ProcessInput(const u8* key_state)
 {
-class Entity;
+    // Calculate forward speed for MoveComponent
+    float forwardSpeed = 0.0f;
+    if (key_state[mForwardKey])
+    {
+        forwardSpeed += mMaxForwardSpeed;
+    }
+    if (key_state[mBackKey])
+    {
+        forwardSpeed -= mMaxForwardSpeed;
+    }
+    SetForwardSpeed(forwardSpeed);
 
-class Component
-{
-public:
-    explicit Component(Entity* owner, i32 update_order = 100);
-    virtual ~Component();
-
-    virtual void Update(f32 delta);
-    virtual void ProcessInput(const u8* key_state) {}
-
-    [[nodiscard]] constexpr i32 UpdateOrder() const { return m_update_order; }
-
-protected:
-    Entity* m_owner{ nullptr };
-    i32     m_update_order{};
-};
-} // namespace retract::components
+    // Calculate angular speed for MoveComponent
+    float angularSpeed = 0.0f;
+    if (key_state[mClockwiseKey])
+    {
+        angularSpeed += mMaxAngularSpeed;
+    }
+    if (key_state[mCounterClockwiseKey])
+    {
+        angularSpeed -= mMaxAngularSpeed;
+    }
+    SetAngularSpeed(angularSpeed);
+}

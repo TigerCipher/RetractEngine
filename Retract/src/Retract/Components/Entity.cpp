@@ -54,13 +54,23 @@ void Entity::Update(f32 delta)
 
 void Entity::UpdateComponents(f32 delta)
 {
-    for(auto* comp : m_components)
+    for (auto* comp : m_components)
     {
         comp->Update(delta);
     }
 }
+void Entity::ProcessInput(const u8* key_state)
+{
+    if(m_state != State::active) return;
 
-void Entity::UpdateEntity(f32 delta) {}
+    for(const auto comp : m_components)
+    {
+        comp->ProcessInput(key_state);
+    }
+
+    EntityInput(key_state);
+}
+
 
 void Entity::AddComponent(Component* comp)
 {

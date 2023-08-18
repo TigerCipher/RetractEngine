@@ -93,7 +93,7 @@ i32 Game::Run()
     while (m_running)
     {
         const u32 start_time = SDL_GetTicks();
-        ProcessInputInternal();
+        ProcessInput();
         Update();
         Render();
 
@@ -213,7 +213,7 @@ SDL_Texture* Game::LoadTexture(const char* filename)
     return tex;
 }
 
-void Game::ProcessInputInternal()
+void Game::ProcessInput()
 {
     SDL_Event event;
     while (SDL_PollEvent(&event))
@@ -230,7 +230,12 @@ void Game::ProcessInputInternal()
         m_running = false;
     }
 
-    ProcessInput(key_state);
+    m_updating_entities = true;
+    for(const auto ent : m_entities)
+    {
+        ent->ProcessInput(key_state);
+    }
+    m_updating_entities = false;
 }
 
 void Game::Update()

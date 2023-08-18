@@ -50,7 +50,10 @@ public:
     void Update(f32 delta);
     void UpdateComponents(f32 delta);
 
-    virtual void UpdateEntity(f32 delta);
+    virtual void UpdateEntity(f32 delta){}
+
+    void ProcessInput(const u8* key_state);
+    virtual void EntityInput(const u8* key_state){}
 
     void AddComponent(Component* comp);
     void RemoveComponent(Component* comp);
@@ -68,6 +71,8 @@ public:
     void SetRotation(const f32 rotation) { m_rotation = rotation; }
 
     vec2 Forward() const { return { cosf(m_rotation), -sinf(m_rotation) }; }
+
+
 
 private:
     State                   m_state;

@@ -22,13 +22,14 @@
 // ------------------------------------------------------------------------------
 #include "Ship.h"
 
+#include "Input.h"
 #include "Retract/Core/Game.h"
 #include "Retract/Components/Sprite.h"
 
 using namespace retract;
 Ship::Ship(retract::core::Game* game) : Entity{ game }
 {
-    AnimatedSprite*           anim  = new AnimatedSprite(this);
+    AnimatedSprite*           anim  = new AnimatedSprite(this, 150);
     utl::vector<SDL_Texture*> anims = {
         game->GetTexture("./Content/ship01.png"),
         game->GetTexture("./Content/ship02.png"),
@@ -36,6 +37,14 @@ Ship::Ship(retract::core::Game* game) : Entity{ game }
         game->GetTexture("./Content/ship04.png"),
     };
     anim->SetTextures(anims);
+
+    Input* ic = new Input(this);
+    ic->SetForwardKey(SDL_SCANCODE_W);
+    ic->SetBackKey(SDL_SCANCODE_S);
+    ic->SetClockwiseKey(SDL_SCANCODE_A);
+    ic->SetCounterClockwiseKey(SDL_SCANCODE_D);
+    ic->SetMaxForwardSpeed(300.0f);
+    ic->SetMaxAngularSpeed(math::two_pi);
 }
 void Ship::UpdateEntity(f32 delta)
 {
@@ -54,16 +63,17 @@ void Ship::UpdateEntity(f32 delta)
         pos.y = 743.0f;
     SetPosition(pos);
 }
-void Ship::ProcessKeyboard(const u8* state)
+
+void Ship::EntityInput(const u8* key_state)
 {
-    m_right_speed = 0;
-    m_down_speed  = 0;
-    if (state[SDL_SCANCODE_D])
-        m_right_speed += 250.0f;
-    if (state[SDL_SCANCODE_A])
-        m_right_speed -= 250.0f;
-    if (state[SDL_SCANCODE_S])
-        m_down_speed += 300.0f;
-    if (state[SDL_SCANCODE_W])
-        m_down_speed -= 300.0f;
+    //m_right_speed = 0;
+    //m_down_speed  = 0;
+    //if (key_state[SDL_SCANCODE_D])
+    //    m_right_speed += 250.0f;
+    //if (key_state[SDL_SCANCODE_A])
+    //    m_right_speed -= 250.0f;
+    //if (key_state[SDL_SCANCODE_S])
+    //    m_down_speed += 300.0f;
+    //if (key_state[SDL_SCANCODE_W])
+    //    m_down_speed -= 300.0f;
 }

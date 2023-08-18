@@ -60,7 +60,7 @@ void Sprite::Draw(SDL_Renderer* renderer)
     r.x = (i32) (m_owner->Position().x - (f32)r.w / 2.0f);
     r.y = (i32) (m_owner->Position().y - (f32)r.h / 2.0f);
 
-    SDL_RenderCopyEx(renderer, m_texture, nullptr, &r, 0, nullptr, SDL_FLIP_NONE);
+    SDL_RenderCopyEx(renderer, m_texture, nullptr, &r, -math::ToDegrees(m_owner->Rotation()), nullptr, SDL_FLIP_NONE);
 }
 
 void Sprite::SetTexture(SDL_Texture* texture)

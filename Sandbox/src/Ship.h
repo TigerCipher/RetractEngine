@@ -35,6 +35,8 @@ public:
     constexpr f32 RightSpeed() const { return m_right_speed; }
     constexpr f32 DownSpeed() const { return m_down_speed; }
 
+    void EntityInput(const u8* key_state) override;
+
 private:
     f32 m_right_speed{};
     f32 m_down_speed{};
