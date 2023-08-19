@@ -59,6 +59,9 @@ using scope = std::unique_ptr<T>;
 template<typename T>
 using ref = std::shared_ptr<T>;
 
+template<typename T>
+using weak = std::weak_ptr<T>;
+
 template<typename T, typename... Args>
     requires constructible_from_args<T, Args...>
 constexpr scope<T> CreateScope(Args&&... args)
