@@ -33,7 +33,7 @@ f32 Circle::Radius() const
     return m_owner->Scale() * m_radius;
 }
 
-const vec2 Circle::Center() const
+vec2 Circle::Center() const
 {
     return m_owner->Position();
 }
