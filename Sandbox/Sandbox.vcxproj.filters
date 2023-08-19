@@ -18,22 +18,28 @@
     <ClCompile Include="src\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Background.cpp">
+    <ClCompile Include="src\Asteroids\Background.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Ship.cpp">
+    <ClCompile Include="src\Asteroids\Ship.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Move.cpp">
+    <ClCompile Include="src\Asteroids\Move.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Circle.cpp">
+    <ClCompile Include="src\Asteroids\Circle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Input.cpp">
+    <ClCompile Include="src\Asteroids\Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Laser.cpp">
+    <ClCompile Include="src\Asteroids\Laser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Asteroids\Asteroid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Asteroids\AsteroidGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,25 +47,28 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Background.h">
+    <ClInclude Include="src\Asteroids\Background.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Ship.h">
+    <ClInclude Include="src\Asteroids\Ship.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Move.h">
+    <ClInclude Include="src\Asteroids\Move.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Circle.h">
+    <ClInclude Include="src\Asteroids\Circle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Input.h">
+    <ClInclude Include="src\Asteroids\Input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Laser.h">
+    <ClInclude Include="src\Asteroids\Laser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Main.h">
+    <ClInclude Include="src\Asteroids\Asteroid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Asteroids\AsteroidGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

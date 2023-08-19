@@ -143,25 +143,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Circle.cpp" />
-    <ClCompile Include="src\Input.cpp" />
-    <ClCompile Include="src\Laser.cpp" />
-    <ClCompile Include="src\Move.cpp" />
-    <ClCompile Include="src\Background.cpp" />
+    <ClCompile Include="src\Asteroids\Asteroid.cpp" />
+    <ClCompile Include="src\Asteroids\AsteroidGame.cpp" />
+    <ClCompile Include="src\Asteroids\Circle.cpp" />
+    <ClCompile Include="src\Asteroids\Input.cpp" />
+    <ClCompile Include="src\Asteroids\Laser.cpp" />
+    <ClCompile Include="src\Asteroids\Move.cpp" />
+    <ClCompile Include="src\Asteroids\Background.cpp" />
     <ClCompile Include="src\Main.cpp" />
-    <ClCompile Include="src\Ship.cpp" />
+    <ClCompile Include="src\Asteroids\Ship.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Circle.h" />
-    <ClInclude Include="src\Input.h" />
-    <ClInclude Include="src\Laser.h" />
-    <ClInclude Include="src\Main.h" />
-    <ClInclude Include="src\Move.h" />
-    <ClInclude Include="src\Background.h" />
-    <ClInclude Include="src\Ship.h" />
+    <ClInclude Include="src\Asteroids\Asteroid.h" />
+    <ClInclude Include="src\Asteroids\AsteroidGame.h" />
+    <ClInclude Include="src\Asteroids\Circle.h" />
+    <ClInclude Include="src\Asteroids\Input.h" />
+    <ClInclude Include="src\Asteroids\Laser.h" />
+    <ClInclude Include="src\Asteroids\Move.h" />
+    <ClInclude Include="src\Asteroids\Background.h" />
+    <ClInclude Include="src\Asteroids\Ship.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

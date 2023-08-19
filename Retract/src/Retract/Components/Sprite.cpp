@@ -31,22 +31,14 @@
 namespace retract
 {
 
-namespace
-{
-u32 total_sprites{0};
-} // anonymous namespace
 
 Sprite::Sprite(Entity* owner, i32 draw_order) : Component{owner}, m_draw_order{draw_order}
 {
-    total_sprites++;
-    LOG_INFO("Adding sprite - {}", total_sprites);
     owner->Game()->AddSprite(this);
 }
 
 Sprite::~Sprite()
 {
-    total_sprites--;
-    LOG_INFO("Removing sprite - {}", total_sprites);
     m_owner->Game()->RemoveSprite(this);
 }
 

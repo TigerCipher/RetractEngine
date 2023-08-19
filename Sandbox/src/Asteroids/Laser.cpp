@@ -28,7 +28,8 @@
 #include "Retract/Components/Sprite.h"
 #include "Retract/Core/Game.h"
 
-#include "Main.h"
+#include "Asteroid.h"
+#include "AsteroidGame.h"
 
 using namespace retract;
 
@@ -49,16 +50,13 @@ void Laser::UpdateEntity(f32 delta)
     mDeathTimer -= delta;
     if (mDeathTimer <= 0.f)
     {
-        LOG_ERROR("Killing laser");
         SetState(State::dead);
     } else
     {
-        for (auto ast : GetAsteroids())
+        for (auto ast : dynamic_cast<AsteroidGame*>(Game())->Asteroids())
         {
-            if (Intersect(*mCircle, *(ast->GetCircle())))
+            if (Intersect(*mCircle, *ast->GetCircle()))
             {
-                LOG_ERROR("Laser hit asteroid - {}, {}, {} - {}, {}, {}, {}", Position().x, Position().y, mCircle->Radius(),
-                          ast->Position().x, ast->Position().y, ast->GetCircle()->Center().x, ast->GetCircle()->Center().y);
                 SetState(State::dead);
                 ast->SetState(State::dead);
                 break;

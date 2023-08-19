@@ -36,7 +36,6 @@ Entity::Entity(core::Game* game) : m_state{State::active}, m_game{game}
 
 Entity::~Entity()
 {
-    LOG_WARN("Deleting entity");
     m_game->RemoveEntity(this);
     while(!m_components.empty())
     {
@@ -74,10 +73,8 @@ void Entity::ProcessInput(const u8* key_state)
 
 void Entity::AddComponent(Component* comp)
 {
-    LOG_INFO("Add comp");
     i32 order = comp->UpdateOrder();
     auto it = m_components.begin();
-    LOG_INFO("Inc iter");
     while(it != m_components.end())
     {
         if(order < (*it)->UpdateOrder()) break;
@@ -89,7 +86,6 @@ void Entity::AddComponent(Component* comp)
 
 void Entity::RemoveComponent(Component* comp)
 {
-    LOG_INFO("Remove comp");
     auto it = std::ranges::find(m_components, comp);
     if(it != m_components.end())
     {

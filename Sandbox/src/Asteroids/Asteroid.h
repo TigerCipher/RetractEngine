@@ -15,39 +15,32 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-// File Name: Main
-// Date File Created: 08/17/2023
+// File Name: Asteroid
+// Date File Created: 08/19/2023
 // Author: Matt
 //
 // ------------------------------------------------------------------------------
-
-#pragma comment(lib, "Retract.lib")
-
-#ifndef WIN32_LEAN_AND_MEAN
-    #define WIN32_LEAN_AND_MEAN
-#endif
-
-#include "Asteroids/AsteroidGame.h"
+#pragma once
 
 
-#include <Windows.h>
-#include <crtdbg.h>
+#include "Circle.h"
+#include "Move.h"
+#include "Retract/Common.h"
+#include "Retract/Components/Entity.h"
+#include "Retract/Components/Sprite.h"
+#include "Retract/Core/Game.h"
 
-
-using namespace retract;
-
-
-
-
-//int main(int argc, char* argv[])
-int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
+class Asteroid : public retract::Entity
 {
-#if _DEBUG
-    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-#endif
-    AsteroidGame game{};
+public:
+    Asteroid(retract::core::Game* game);
+    ~Asteroid() override;
+    void UpdateEntity(f32 delta) override {}
 
-    const i32 status = game.Run();
+    Circle* GetCircle() const { return m_circle; }
 
-    return status;
-}
+private:
+    retract::Sprite* m_sprite{ nullptr };
+    Circle*          m_circle{ nullptr };
+    Move*            mc{ nullptr };
+};

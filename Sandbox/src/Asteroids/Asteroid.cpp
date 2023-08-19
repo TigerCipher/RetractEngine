@@ -15,32 +15,31 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-// File Name: Main
-// Date File Created: 08/18/2023
+// File Name: Asteroid
+// Date File Created: 08/19/2023
 // Author: Matt
 //
 // ------------------------------------------------------------------------------
-#pragma once
 
-#include "Circle.h"
-#include "Move.h"
-#include "Retract/Common.h"
-#include "Retract/Components/Entity.h"
-#include "Retract/Components/Sprite.h"
-#include "Retract/Core/Game.h"
+#include "Asteroid.h"
+#include "AsteroidGame.h"
 
-class Asteroid : public retract::Entity
+Asteroid::Asteroid(retract::core::Game* game) : Entity{ game }
 {
-public:
-    Asteroid(retract::core::Game* game);
-    ~Asteroid() override;
-    void UpdateEntity(f32 delta) override {}
+    vec2 pos = retract::random::Vector(retract::math::zero_vec2, { 1000, 800 });
+    SetPosition(pos);
+    SetRotation(retract::random::Float(0.f, retract::math::two_pi));
+    m_sprite = new retract::Sprite(this);
+    m_sprite->SetTexture(game->GetTexture("./Content/asteroid.png"));
 
-    Circle* GetCircle() const { return m_circle; }
+    m_circle = new Circle(this);
+    m_circle->SetRadius(32.f);
 
-private:
-    retract::Sprite* m_sprite{ nullptr };
-    Circle* m_circle{ nullptr };
-    Move*   mc{ nullptr };
-};
-const retract::utl::vector<Asteroid*>& GetAsteroids();
+    mc = new Move(this);
+    mc->SetForwardSpeed(150.f);
+    dynamic_cast<AsteroidGame*>(game)->AddAsteroid(this);
+}
+Asteroid::~Asteroid()
+{
+    dynamic_cast<AsteroidGame*>(Game())->RemoveAsteroid(this);
+}

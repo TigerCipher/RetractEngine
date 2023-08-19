@@ -15,39 +15,32 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-// File Name: Main
-// Date File Created: 08/17/2023
+// File Name: AsteroidGame
+// Date File Created: 08/19/2023
 // Author: Matt
 //
 // ------------------------------------------------------------------------------
+#pragma once
 
-#pragma comment(lib, "Retract.lib")
+#include "Ship.h"
+#include "Retract/Core/Game.h"
 
-#ifndef WIN32_LEAN_AND_MEAN
-    #define WIN32_LEAN_AND_MEAN
-#endif
+class Asteroid;
 
-#include "Asteroids/AsteroidGame.h"
-
-
-#include <Windows.h>
-#include <crtdbg.h>
-
-
-using namespace retract;
-
-
-
-
-//int main(int argc, char* argv[])
-int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
+class AsteroidGame : public retract::core::Game
 {
-#if _DEBUG
-    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-#endif
-    AsteroidGame game{};
+public:
+    AsteroidGame() : Game() {}
 
-    const i32 status = game.Run();
 
-    return status;
-}
+    void Init() override;
+
+    void AddAsteroid(Asteroid* asteroid);
+
+    void                            RemoveAsteroid(Asteroid* asteroid);
+    const retract::utl::vector<Asteroid*>& Asteroids() const { return asteroids; }
+
+private:
+    Ship*                           ship{ nullptr };
+    retract::utl::vector<Asteroid*> asteroids;
+};

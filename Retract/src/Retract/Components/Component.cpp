@@ -34,7 +34,6 @@ Component::Component(Entity* owner, i32 update_order): m_owner{owner}, m_update_
 
 Component::~Component()
 {
-    LOG_WARN("Deleting component");
     m_owner->RemoveComponent(this);
 }
 
