@@ -20,7 +20,7 @@
 // Author: Matt
 //
 // ------------------------------------------------------------------------------
-
+#include "Main.h"
 #include "Retract/Core/Game.h"
 
 #pragma comment(lib, "Retract.lib")
@@ -64,43 +64,34 @@ void RemoveAsteroid(Asteroid* asteroid)
 }
 } // anonymous namespace
 
-class Sandbox;
 
-class Asteroid : public Entity
+Asteroid::Asteroid(retract::core::Game* game) : Entity{ game }
 {
-public:
-    Asteroid(core::Game* game) : Entity{ game }
-    {
-        vec2 pos = random::Vector(math::zero_vec2, { 1000, 800 });
-        SetPosition(pos);
-        SetRotation(random::Float(0.f, math::two_pi));
-        m_sprite = new Sprite(this);
-        m_sprite->SetTexture(game->GetTexture("./Content/asteroid.png"));
+    vec2 pos = retract::random::Vector(retract::math::zero_vec2, { 1000, 800 });
+    SetPosition(pos);
+    SetRotation(retract::random::Float(0.f, retract::math::two_pi));
+    m_sprite = new retract::Sprite(this);
+    m_sprite->SetTexture(game->GetTexture("./Content/asteroid.png"));
 
-        m_circle = new Circle(this);
-        m_circle->SetRadius(40.f);
+    m_circle = new Circle(this);
+    m_circle->SetRadius(32.f);
+    LOG_ERROR("Position: ({}, {}), Center: ({}, {})", pos.x, pos.y, m_circle->Center().x, m_circle->Center().y);
 
-        mc = new Move(this);
-        mc->SetForwardSpeed(150.f);
-        ++asteroidCount;
-        AddAsteroid(this);
-    }
-    ~Asteroid() override
-    {
-        LOG_WARN("Deleting asteroid {}", asteroidCount);
-        --asteroidCount;
-        RemoveAsteroid(this);
-        //delete m_sprite;
-        //delete m_circle;
-        //delete mc;
-    }
-    void UpdateEntity(f32 delta) override {}
+    mc = new Move(this);
+    mc->SetForwardSpeed(150.f);
+    AddAsteroid(this);
 
-private:
-    Sprite* m_sprite{ nullptr };
-    Circle* m_circle{ nullptr };
-    Move*   mc{ nullptr };
-};
+}
+Asteroid::~Asteroid()
+{
+    RemoveAsteroid(this);
+}
+
+
+const retract::utl::vector<Asteroid*>& GetAsteroids()
+{
+    return asteroids;
+}
 
 class Sandbox : public core::Game
 {

@@ -23,6 +23,7 @@
 #include "Ship.h"
 
 #include "Input.h"
+#include "Laser.h"
 #include "Retract/Core/Game.h"
 #include "Retract/Components/Sprite.h"
 
@@ -48,32 +49,18 @@ Ship::Ship(retract::core::Game* game) : Entity{ game }
 }
 void Ship::UpdateEntity(f32 delta)
 {
-    Entity::UpdateEntity(delta);
-    vec2 pos = Position();
-    pos.x += m_right_speed * delta;
-    pos.y += m_down_speed * delta;
-
-    if (pos.x < 25.0f)
-        pos.x = 25.0f;
-    else if (pos.x > 500.0f)
-        pos.x = 500.0f;
-    if (pos.y < 25.0f)
-        pos.y = 25.0f;
-    else if (pos.y > 743.0f)
-        pos.y = 743.0f;
-    SetPosition(pos);
+    mLaserCooldown -= delta;
 }
+
 
 void Ship::EntityInput(const u8* key_state)
 {
-    //m_right_speed = 0;
-    //m_down_speed  = 0;
-    //if (key_state[SDL_SCANCODE_D])
-    //    m_right_speed += 250.0f;
-    //if (key_state[SDL_SCANCODE_A])
-    //    m_right_speed -= 250.0f;
-    //if (key_state[SDL_SCANCODE_S])
-    //    m_down_speed += 300.0f;
-    //if (key_state[SDL_SCANCODE_W])
-    //    m_down_speed -= 300.0f;
+    if(key_state[SDL_SCANCODE_SPACE] && mLaserCooldown <= 0.f)
+    {
+        Laser* laser = new Laser(Game());
+        laser->SetPosition(Position());
+        laser->SetRotation(Rotation());
+
+        mLaserCooldown = 0.5f;
+    }
 }

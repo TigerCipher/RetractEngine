@@ -59,6 +59,7 @@ public:
     void RemoveComponent(Component* comp);
 
     constexpr State CurrentState() const { return m_state; }
+    void SetState(State state) { m_state = state; }
 
     core::Game* Game() const { return m_game; }
 

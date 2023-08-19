@@ -15,25 +15,32 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-// File Name: Ship
+// File Name: Main
 // Date File Created: 08/18/2023
 // Author: Matt
 //
 // ------------------------------------------------------------------------------
 #pragma once
 
+#include "Circle.h"
+#include "Move.h"
+#include "Retract/Common.h"
 #include "Retract/Components/Entity.h"
+#include "Retract/Components/Sprite.h"
+#include "Retract/Core/Game.h"
 
-class Ship : public retract::Entity
+class Asteroid : public retract::Entity
 {
 public:
-    Ship(retract::core::Game* game);
+    Asteroid(retract::core::Game* game);
+    ~Asteroid() override;
+    void UpdateEntity(f32 delta) override {}
 
-    void UpdateEntity(f32 delta) override;
-
-
-    void EntityInput(const u8* key_state) override;
+    Circle* GetCircle() const { return m_circle; }
 
 private:
-    f32 mLaserCooldown{};
+    retract::Sprite* m_sprite{ nullptr };
+    Circle* m_circle{ nullptr };
+    Move*   mc{ nullptr };
 };
+const retract::utl::vector<Asteroid*>& GetAsteroids();

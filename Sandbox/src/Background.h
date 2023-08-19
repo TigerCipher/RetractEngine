@@ -27,7 +27,7 @@
 class Background : public retract::Sprite
 {
 public:
-    Background(retract::Entity* owner, i32 draw_order = 10) : Sprite{owner, draw_order} {}
+    Background(retract::Entity* owner, i32 draw_order = 1) : Sprite{owner, draw_order} {}
 
     void Update(f32 delta) override;
     void Draw(SDL_Renderer* renderer) override;

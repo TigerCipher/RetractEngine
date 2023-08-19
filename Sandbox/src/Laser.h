@@ -15,7 +15,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-// File Name: Ship
+// File Name: Laser
 // Date File Created: 08/18/2023
 // Author: Matt
 //
@@ -24,16 +24,14 @@
 
 #include "Retract/Components/Entity.h"
 
-class Ship : public retract::Entity
+
+
+class Laser : public retract::Entity
 {
 public:
-    Ship(retract::core::Game* game);
-
+    Laser(class retract::core::Game* game);
     void UpdateEntity(f32 delta) override;
-
-
-    void EntityInput(const u8* key_state) override;
-
 private:
-    f32 mLaserCooldown{};
+    class Circle* mCircle{nullptr};
+    f32 mDeathTimer{1.f};
 };

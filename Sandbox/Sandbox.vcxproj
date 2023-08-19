@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClCompile Include="src\Circle.cpp" />
     <ClCompile Include="src\Input.cpp" />
+    <ClCompile Include="src\Laser.cpp" />
     <ClCompile Include="src\Move.cpp" />
     <ClCompile Include="src\Background.cpp" />
     <ClCompile Include="src\Main.cpp" />
@@ -156,6 +157,8 @@
   <ItemGroup>
     <ClInclude Include="src\Circle.h" />
     <ClInclude Include="src\Input.h" />
+    <ClInclude Include="src\Laser.h" />
+    <ClInclude Include="src\Main.h" />
     <ClInclude Include="src\Move.h" />
     <ClInclude Include="src\Background.h" />
     <ClInclude Include="src\Ship.h" />

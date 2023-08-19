@@ -35,7 +35,7 @@ class Sprite : public Component
 {
 public:
     Sprite(Entity* owner, i32 draw_order = 100);
-    virtual ~Sprite();
+    ~Sprite() override;
 
     virtual void Draw(SDL_Renderer* renderer);
     virtual void SetTexture(SDL_Texture* texture);
