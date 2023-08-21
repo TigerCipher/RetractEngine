@@ -47,6 +47,7 @@ public:
     i32  Run(); // returns 0 if no issues
 
     virtual void Init() = 0;
+    virtual void ProcessInput(const u8* key_state) {}
 
     void AddEntity(Entity* entity);
     void RemoveEntity(Entity* entity);
@@ -56,10 +57,16 @@ public:
 
     SDL_Texture* GetTexture(const char* filename); // TODO: Add to a resource manager instead
 
+    template<typename T>
+    T* As()
+    {
+        return dynamic_cast<T*>(this);
+    }
+
 private:
     bool InitializeInternal();
     void ShutdownInternal();
-    void ProcessInput();
+    void ProcessInputInternal();
     void Update();
     void Render();
     SDL_Texture* LoadTexture(const char* filename);

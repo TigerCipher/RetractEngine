@@ -1,4 +1,4 @@
-// ------------------------------------------------------------------------------
+﻿// ------------------------------------------------------------------------------
 //
 // RetractEngine
 //    Copyright 2023 Matthew Rogers
@@ -15,41 +15,26 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-// File Name: Main
-// Date File Created: 08/17/2023
+// File Name: AIComponent.h
+// Date File Created: 08/20/2023
 // Author: Matt
 //
 // ------------------------------------------------------------------------------
 
-#pragma comment(lib, "Retract.lib")
+#pragma once
+#include "Retract/Components/Component.h"
 
-#ifndef WIN32_LEAN_AND_MEAN
-    #define WIN32_LEAN_AND_MEAN
-#endif
-
-#include "Asteroids/AsteroidGame.h"
-#include "Towers/TowerGame.h"
-
-
-#include <Windows.h>
-#include <crtdbg.h>
-
-
-using namespace retract;
-
-
-
-
-//int main(int argc, char* argv[])
-int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
+class AIComponent : public retract::Component
 {
-#if _DEBUG
-    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-#endif
-    //AsteroidGame game{};
-    TowerGame game{};
+public:
+    AIComponent(retract::Entity* owner) : Component{owner} {}
 
-    const i32 status = game.Run();
+    void Update(f32 delta) override;
 
-    return status;
-}
+    void ChangeState(const std::string& name);
+    void RegisterState(class AIState* state);
+
+private:
+    std::unordered_map<std::string, AIState*> mStateMap{};
+    AIState* mCurrentState{nullptr};
+};
