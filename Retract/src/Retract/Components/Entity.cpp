@@ -29,14 +29,14 @@
 namespace retract
 {
 
-Entity::Entity(Game* game) : m_state{State::active}, m_game{game}
+Entity::Entity() : m_state{State::active}
 {
-    game->AddEntity(this);
+    Game::Instance()->AddEntity(this);
 }
 
 Entity::~Entity()
 {
-    m_game->RemoveEntity(this);
+    Game::Instance()->RemoveEntity(this);
     while(!m_components.empty())
     {
         auto& comp = m_components.back();

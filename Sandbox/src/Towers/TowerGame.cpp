@@ -36,7 +36,7 @@ using namespace retract;
 
 void TowerGame::Init()
 {
-    mGrid = new Grid(this);
+    mGrid = new Grid();
 
     // For testing AIComponent
     //Entity* a = new Entity(this);

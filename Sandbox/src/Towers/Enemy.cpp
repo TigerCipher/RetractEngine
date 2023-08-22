@@ -34,18 +34,18 @@
 
 using namespace retract;
 
-Enemy::Enemy(Game* game) : Entity{ game }
+Enemy::Enemy()
 {
-    game->As<TowerGame>()->Enemies().emplace_back(this);
+    Game::As<TowerGame>()->Enemies().emplace_back(this);
 
     Sprite* sc = new Sprite(this);
-    sc->SetTexture(game->GetTexture("./Content/Airplane.png"));
+    sc->SetTexture("./Content/Airplane.png");
 
-    SetPosition(game->As<TowerGame>()->GetGrid()->StartTile()->Position());
+    SetPosition(Game::As<TowerGame>()->GetGrid()->StartTile()->Position());
 
     Nav* nav = new Nav(this);
     nav->SetForwardSpeed(200.f);
-    nav->StartPath(GetGame()->As<TowerGame>()->GetGrid()->StartTile());
+    nav->StartPath(Game::As<TowerGame>()->GetGrid()->StartTile());
 
 
     mCircle = new Circle(this);
@@ -53,15 +53,15 @@ Enemy::Enemy(Game* game) : Entity{ game }
 }
 Enemy::~Enemy()
 {
-    auto it = std::ranges::find(GetGame()->As<TowerGame>()->Enemies(), this);
-    GetGame()->As<TowerGame>()->Enemies().erase(it);
+    auto it = std::ranges::find(Game::As<TowerGame>()->Enemies(), this);
+    Game::As<TowerGame>()->Enemies().erase(it);
 }
 
 void Enemy::UpdateEntity(f32 delta)
 {
     Entity::UpdateEntity(delta);
 
-    vec2 diff = Position() - GetGame()->As<TowerGame>()->GetGrid()->EndTile()->Position();
+    vec2 diff = Position() - Game::As<TowerGame>()->GetGrid()->EndTile()->Position();
     if(math::NearZero(diff.Length(), 10.f))
     {
         SetState(State::dead);

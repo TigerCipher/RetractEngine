@@ -33,10 +33,10 @@
 
 using namespace retract;
 
-Laser::Laser(Game* game) : Entity{ game }
+Laser::Laser()
 {
     Sprite* sc = new Sprite(this, 5);
-    sc->SetTexture(game->GetTexture("./Content/Laser.png"));
+    sc->SetTexture("./Content/Laser.png");
 
     Move* mc = new Move(this);
     mc->SetForwardSpeed(800.f);
@@ -53,7 +53,7 @@ void Laser::UpdateEntity(f32 delta)
         SetState(State::dead);
     } else
     {
-        for (auto ast : dynamic_cast<AsteroidGame*>(GetGame())->Asteroids())
+        for (const auto ast : Game::As<AsteroidGame>()->Asteroids())
         {
             if (Intersect(*mCircle, *ast->GetCircle()))
             {

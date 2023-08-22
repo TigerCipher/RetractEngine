@@ -28,7 +28,7 @@
 class Tower : public retract::Entity
 {
 public:
-    Tower(retract::Game* game);
+    Tower();
     void UpdateEntity(f32 delta) override;
 private:
     class Move* mMove{};

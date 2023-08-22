@@ -29,7 +29,6 @@ namespace retract
 
 
 class Component;
-class Game;
 
 class Entity
 {
@@ -41,7 +40,7 @@ public:
         dead
     };
 
-    explicit Entity(Game* game);
+    explicit Entity();
     virtual ~Entity();
 
     void Update(f32 delta);
@@ -58,8 +57,6 @@ public:
     constexpr State CurrentState() const { return m_state; }
     void            SetState(State state) { m_state = state; }
 
-    Game* GetGame() const { return m_game; }
-
     constexpr vec2 Position() const { return m_position; }
     constexpr f32  Scale() const { return m_scale; }
     constexpr f32  Rotation() const { return m_rotation; }
@@ -73,7 +70,6 @@ public:
 
 private:
     State                   m_state;
-    Game*                   m_game;
     utl::vector<Component*> m_components;
 
     vec2 m_position;

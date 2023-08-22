@@ -27,7 +27,7 @@
 class Ship : public retract::Entity
 {
 public:
-    Ship(retract::Game* game);
+    Ship();
 
     void UpdateEntity(f32 delta) override;
 

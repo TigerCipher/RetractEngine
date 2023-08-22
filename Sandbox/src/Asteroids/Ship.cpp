@@ -28,14 +28,14 @@
 #include "Retract/Components/Sprite.h"
 
 using namespace retract;
-Ship::Ship(Game* game) : Entity{ game }
+Ship::Ship()
 {
     AnimatedSprite*           anim  = new AnimatedSprite(this, 150);
-    utl::vector<SDL_Texture*> anims = {
-        game->GetTexture("./Content/ship01.png"),
-        game->GetTexture("./Content/ship02.png"),
-        game->GetTexture("./Content/ship03.png"),
-        game->GetTexture("./Content/ship04.png"),
+    utl::vector<const char*> anims = {
+        "./Content/ship01.png",
+        "./Content/ship02.png",
+        "./Content/ship03.png",
+        "./Content/ship04.png",
     };
     anim->SetTextures(anims);
 
@@ -57,7 +57,7 @@ void Ship::EntityInput(const u8* key_state)
 {
     if(key_state[SDL_SCANCODE_SPACE] && mLaserCooldown <= 0.f)
     {
-        Laser* laser = new Laser(GetGame());
+        Laser* laser = new Laser();
         laser->SetPosition(Position());
         laser->SetRotation(Rotation());
 

@@ -28,12 +28,11 @@
 #include "Retract/Common.h"
 #include "Retract/Components/Entity.h"
 #include "Retract/Components/Sprite.h"
-#include "Retract/Core/Game.h"
 
 class Asteroid : public retract::Entity
 {
 public:
-    Asteroid(retract::Game* game);
+    Asteroid();
     ~Asteroid() override;
     void UpdateEntity(f32 delta) override {}
 

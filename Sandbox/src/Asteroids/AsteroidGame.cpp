@@ -33,11 +33,11 @@ void AsteroidGame::Init()
     //asteroid = new Asteroid(this);
     //AddEntity(asteroid);
 
-    ship = new Ship(this);
+    ship = new Ship();
     ship->SetPosition({ 100.f, 384.f });
 
 
-    auto* temp = new retract::Entity(this);
+    auto* temp = new retract::Entity();
     temp->SetPosition({ 512, 400 });
     auto* bg = new Background(temp);
     bg->SetScreenSize({ 1000, 800 });
@@ -59,7 +59,7 @@ void AsteroidGame::Init()
     constexpr u32 numAsteroids = 20;
     for (u32 i = 0; i < numAsteroids; ++i)
     {
-        new Asteroid(this);
+        new Asteroid();
     }
 }
 void AsteroidGame::AddAsteroid(Asteroid* asteroid)

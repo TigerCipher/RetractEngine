@@ -34,12 +34,12 @@ namespace retract
 
 Sprite::Sprite(Entity* owner, i32 draw_order) : Component{owner}, m_draw_order{draw_order}
 {
-    owner->GetGame()->AddSprite(this);
+    Game::Instance()->AddSprite(this);
 }
 
 Sprite::~Sprite()
 {
-    m_owner->GetGame()->RemoveSprite(this);
+    Game::Instance()->RemoveSprite(this);
 }
 
 void Sprite::Draw(SDL_Renderer* renderer)
@@ -61,6 +61,11 @@ void Sprite::SetTexture(SDL_Texture* texture)
     SDL_QueryTexture(texture, nullptr, nullptr, &m_width, &m_height);
 }
 
+void Sprite::SetTexture(const char* filename)
+{
+    SetTexture(Game::Instance()->GetTexture(filename));
+}
+
 
 void AnimatedSprite::Update(f32 delta)
 {
@@ -79,9 +84,20 @@ void AnimatedSprite::Update(f32 delta)
 void AnimatedSprite::SetTextures(const utl::vector<SDL_Texture*>& textures)
 {
     m_textures = textures;
-    if(m_textures.empty()) return;
+    if (m_textures.empty())
+        return;
     m_current_frame = 0.0f;
     SetTexture(m_textures[0]);
+}
+void AnimatedSprite::SetTextures(const utl::vector<const char*>& filenames)
+{
+    utl::vector<SDL_Texture*> textures{};
+    for(const auto f : filenames)
+    {
+        textures.emplace_back(Game::Instance()->GetTexture(f));
+    }
+
+    SetTextures(textures);
 }
 
 }

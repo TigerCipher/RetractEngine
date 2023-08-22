@@ -36,10 +36,10 @@ class Sprite;
 class Game
 {
 public:
-    Game()          = default;
+    Game();
     virtual ~Game() = default;
 
-    i32  Run(); // returns 0 if no issues
+    i32 Run(); // returns 0 if no issues
 
     virtual void Init() = 0;
     virtual void ProcessInput(const u8* key_state) {}
@@ -52,18 +52,26 @@ public:
 
     SDL_Texture* GetTexture(const char* filename); // TODO: Add to a resource manager instead
 
+    //template<typename T>
+    //T* As()
+    //{
+    //    return dynamic_cast<T*>(this);
+    //}
+
     template<typename T>
-    T* As()
+    static T* As()
     {
-        return dynamic_cast<T*>(this);
+        return dynamic_cast<T*>(mInstance);
     }
 
+    static Game* Instance() { return mInstance; }
+
 private:
-    bool InitializeInternal();
-    void ShutdownInternal();
-    void ProcessInputInternal();
-    void Update();
-    void Render();
+    bool         InitializeInternal();
+    void         ShutdownInternal();
+    void         ProcessInputInternal();
+    void         Update();
+    void         Render();
     SDL_Texture* LoadTexture(const char* filename);
 
     bool          m_running{ false };
@@ -75,7 +83,10 @@ private:
     bool                 m_updating_entities{ false };
 
     std::unordered_map<std::string, SDL_Texture*> m_textures{};
-    utl::vector<Sprite*> m_sprites{};
+    utl::vector<Sprite*>                          m_sprites{};
+
+    static Game* mInstance;
+    static bool  mConstructed;
 };
 
-} // namespace retract::core
+} // namespace retract

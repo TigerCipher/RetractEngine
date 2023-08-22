@@ -28,7 +28,7 @@
 class Bullet : public retract::Entity
 {
 public:
-    explicit Bullet(retract::Game* game);
+    explicit Bullet();
     void UpdateEntity(f32 delta) override;
 private:
     class Circle* mCircle{nullptr};

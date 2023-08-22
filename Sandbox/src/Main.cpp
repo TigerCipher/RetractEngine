@@ -46,8 +46,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 #if _DEBUG
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
-    //AsteroidGame game{};
-    TowerGame game{};
+    AsteroidGame game{};
+    //TowerGame game{};
 
     const i32 status = game.Run();
 

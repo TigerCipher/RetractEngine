@@ -46,6 +46,10 @@ struct FrameInfo
 FrameInfo frame_info{};
 } // anonymous namespace
 
+
+Game* Game::mInstance;
+bool  Game::mConstructed = false;
+
 bool Game::InitializeInternal()
 {
     random::Init();
@@ -81,6 +85,18 @@ bool Game::InitializeInternal()
     return true;
 }
 
+Game::Game()
+{
+    if (mConstructed)
+    {
+        LOG_ERROR("Game is already constructed, do not reconstruct");
+    } else
+    {
+        mConstructed = true;
+        mInstance    = this;
+    }
+}
+
 i32 Game::Run()
 {
     if (!InitializeInternal())
@@ -98,7 +114,7 @@ i32 Game::Run()
         Render();
 
         const u32   frame_time = SDL_GetTicks() - start_time;
-        f32         fps        = (frame_time > 0) ? 1000.0f / (f32)frame_time : 0.0f;
+        f32         fps        = (frame_time > 0) ? 1000.0f / (f32) frame_time : 0.0f;
         std::string title      = std::format("RetractEngine - FPS: {:.5f}", fps);
         SDL_SetWindowTitle(m_window, title.c_str());
 
@@ -124,7 +140,7 @@ void Game::ShutdownInternal()
         delete m_entities.back();
     }
 
-    for(const auto val : m_textures | std::views::values)
+    for (const auto val : m_textures | std::views::values)
     {
         SDL_DestroyTexture(val);
     }
@@ -232,7 +248,7 @@ void Game::ProcessInputInternal()
     ProcessInput(key_state);
 
     m_updating_entities = true;
-    for(const auto ent : m_entities)
+    for (const auto ent : m_entities)
     {
         ent->ProcessInput(key_state);
     }
@@ -291,4 +307,4 @@ void Game::Render()
 
     SDL_RenderPresent(m_renderer);
 }
-} // namespace retract::core
+} // namespace retract

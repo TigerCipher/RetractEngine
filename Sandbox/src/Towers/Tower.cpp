@@ -34,10 +34,10 @@
 
 using namespace retract;
 
-Tower::Tower(Game* game) : Entity{game}
+Tower::Tower()
 {
     Sprite* sc = new Sprite(this, 200);
-    sc->SetTexture(game->GetTexture("./Content/Tower.png"));
+    sc->SetTexture("./Content/Tower.png");
 
     mMove = new Move(this);
 
@@ -48,7 +48,7 @@ void Tower::UpdateEntity(f32 delta)
     mNextAttack -= delta;
     if(mNextAttack <= 0.f)
     {
-        Enemy* e = GetGame()->As<TowerGame>()->GetNearestEnemy(Position());
+        Enemy* e = Game::As<TowerGame>()->GetNearestEnemy(Position());
         if(e)
         {
             vec2 dir = e->Position() - Position();
@@ -56,7 +56,7 @@ void Tower::UpdateEntity(f32 delta)
             if(dist < attack_range)
             {
                 SetRotation(math::Atan2(-dir.y, dir.x));
-                Bullet* b = new Bullet(GetGame());
+                Bullet* b = new Bullet();
                 b->SetPosition(Position());
                 b->SetRotation(Rotation());
             }

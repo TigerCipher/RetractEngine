@@ -26,22 +26,23 @@
 
 using namespace retract;
 
-Asteroid::Asteroid(Game* game) : Entity{ game }
+Asteroid::Asteroid()
 {
     vec2 pos = retract::random::Vector(retract::math::zero_vec2, { 1000, 800 });
     SetPosition(pos);
     SetRotation(retract::random::Float(0.f, retract::math::two_pi));
     m_sprite = new retract::Sprite(this);
-    m_sprite->SetTexture(game->GetTexture("./Content/asteroid.png"));
+    m_sprite->SetTexture("./Content/asteroid.png");
 
     m_circle = new Circle(this);
     m_circle->SetRadius(32.f);
 
     mc = new Move(this);
     mc->SetForwardSpeed(150.f);
-    dynamic_cast<AsteroidGame*>(game)->AddAsteroid(this);
+    //dynamic_cast<AsteroidGame*>(game)->AddAsteroid(this);
+    Game::As<AsteroidGame>()->AddAsteroid(this);
 }
 Asteroid::~Asteroid()
 {
-    dynamic_cast<AsteroidGame*>(GetGame())->RemoveAsteroid(this);
+    Game::As<AsteroidGame>()->RemoveAsteroid(this);
 }

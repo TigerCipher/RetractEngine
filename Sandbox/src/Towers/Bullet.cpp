@@ -32,10 +32,10 @@
 
 using namespace retract;
 
-Bullet::Bullet(Game* game) : Entity{ game }
+Bullet::Bullet()
 {
     Sprite* sc = new Sprite(this);
-    sc->SetTexture(game->GetTexture("./Content/Projectile.png"));
+    sc->SetTexture("./Content/Projectile.png");
 
     Move* mc = new Move(this);
     mc->SetForwardSpeed(400.f);
@@ -45,7 +45,7 @@ Bullet::Bullet(Game* game) : Entity{ game }
 }
 void Bullet::UpdateEntity(f32 delta)
 {
-    for(auto* e : GetGame()->As<TowerGame>()->Enemies())
+    for(auto* e : Game::As<TowerGame>()->Enemies())
     {
         if(Intersect(*mCircle, *e->GetCircle()))
         {

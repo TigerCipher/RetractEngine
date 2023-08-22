@@ -39,6 +39,7 @@ public:
 
     virtual void Draw(SDL_Renderer* renderer);
     virtual void SetTexture(SDL_Texture* texture);
+    virtual void SetTexture(const char* filename);
 
     [[nodiscard]] constexpr i32 DrawOrder() const { return m_draw_order; }
     [[nodiscard]] constexpr i32 Width() const { return m_width; }
@@ -59,6 +60,7 @@ public:
     void Update(f32 delta) override;
 
     void SetTextures(const utl::vector<SDL_Texture*>& textures);
+    void SetTextures(const utl::vector<const char*>& filenames);
 
     constexpr f32 Fps() const { return m_fps; }
     void SetFps(f32 fps) { m_fps = fps; }

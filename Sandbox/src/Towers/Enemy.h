@@ -29,7 +29,7 @@
 class Enemy : public retract::Entity
 {
 public:
-    Enemy(retract::Game* game);
+    Enemy();
     ~Enemy() override;
 
     void UpdateEntity(f32 delta) override;
