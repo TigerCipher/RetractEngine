@@ -42,7 +42,7 @@ public:
         base,
     };
 
-    Tile(retract::core::Game* game);
+    Tile(retract::Game* game);
 
     TileState GetTileState() const { return mTileState; }
     void      SetTileState(TileState tile_state);

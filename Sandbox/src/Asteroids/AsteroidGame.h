@@ -27,7 +27,7 @@
 
 class Asteroid;
 
-class AsteroidGame : public retract::core::Game
+class AsteroidGame : public retract::Game
 {
 public:
     AsteroidGame() : Game() {}

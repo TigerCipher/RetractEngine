@@ -30,7 +30,7 @@
 
 using namespace retract;
 
-Tile::Tile(core::Game* game) : Entity{ game }
+Tile::Tile(Game* game) : Entity{ game }
 {
     mSprite = new Sprite(this);
     UpdateTexture();
@@ -69,5 +69,5 @@ void Tile::UpdateTexture()
         break;
     }
 
-    mSprite->SetTexture(Game()->GetTexture(filename.c_str()));
+    mSprite->SetTexture(GetGame()->GetTexture(filename.c_str()));
 }

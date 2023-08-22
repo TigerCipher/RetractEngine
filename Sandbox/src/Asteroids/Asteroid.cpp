@@ -24,7 +24,9 @@
 #include "Asteroid.h"
 #include "AsteroidGame.h"
 
-Asteroid::Asteroid(retract::core::Game* game) : Entity{ game }
+using namespace retract;
+
+Asteroid::Asteroid(Game* game) : Entity{ game }
 {
     vec2 pos = retract::random::Vector(retract::math::zero_vec2, { 1000, 800 });
     SetPosition(pos);
@@ -41,5 +43,5 @@ Asteroid::Asteroid(retract::core::Game* game) : Entity{ game }
 }
 Asteroid::~Asteroid()
 {
-    dynamic_cast<AsteroidGame*>(Game())->RemoveAsteroid(this);
+    dynamic_cast<AsteroidGame*>(GetGame())->RemoveAsteroid(this);
 }

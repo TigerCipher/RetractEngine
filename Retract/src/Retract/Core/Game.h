@@ -25,18 +25,13 @@
 
 #include "Retract/Common.h"
 
-struct SDL_Window;
-struct SDL_Renderer;
-struct SDL_Texture;
+#include <SDL.h>
+
 
 namespace retract
 {
 class Entity;
 class Sprite;
-}
-
-namespace retract::core
-{
 
 class Game
 {

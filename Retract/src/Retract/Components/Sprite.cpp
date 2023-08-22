@@ -34,12 +34,12 @@ namespace retract
 
 Sprite::Sprite(Entity* owner, i32 draw_order) : Component{owner}, m_draw_order{draw_order}
 {
-    owner->Game()->AddSprite(this);
+    owner->GetGame()->AddSprite(this);
 }
 
 Sprite::~Sprite()
 {
-    m_owner->Game()->RemoveSprite(this);
+    m_owner->GetGame()->RemoveSprite(this);
 }
 
 void Sprite::Draw(SDL_Renderer* renderer)

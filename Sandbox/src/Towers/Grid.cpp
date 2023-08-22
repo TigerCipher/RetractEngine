@@ -32,7 +32,7 @@
 
 using namespace retract;
 
-Grid::Grid(core::Game* game) : Entity{ game }
+Grid::Grid(Game* game) : Entity{ game }
 {
     mTiles.resize(num_rows);
     for (auto& tile : mTiles)
@@ -172,7 +172,7 @@ void Grid::BuildTower()
         mSelectedTile->mBlocked = true;
         if (FindPath(EndTile(), StartTile()))
         {
-            Tower* t = new Tower(Game());
+            Tower* t = new Tower(GetGame());
             t->SetPosition(mSelectedTile->Position());
         } else
         {
@@ -199,7 +199,7 @@ void Grid::UpdateEntity(f32 delta)
     mNextEnemy -= delta;
     if (mNextEnemy <= 0.f)
     {
-        new Enemy(Game());
+        new Enemy(GetGame());
         mNextEnemy += enemy_time;
     }
 }

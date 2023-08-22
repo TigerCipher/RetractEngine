@@ -33,7 +33,7 @@
 #include <ranges>
 
 
-namespace retract::core
+namespace retract
 {
 
 namespace

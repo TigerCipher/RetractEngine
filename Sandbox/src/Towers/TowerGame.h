@@ -28,7 +28,7 @@
 class Enemy;
 class Grid;
 
-class TowerGame : public retract::core::Game
+class TowerGame : public retract::Game
 {
 public:
     void Init() override;

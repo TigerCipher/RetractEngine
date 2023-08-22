@@ -33,7 +33,7 @@
 class Asteroid : public retract::Entity
 {
 public:
-    Asteroid(retract::core::Game* game);
+    Asteroid(retract::Game* game);
     ~Asteroid() override;
     void UpdateEntity(f32 delta) override {}
 

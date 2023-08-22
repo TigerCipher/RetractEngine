@@ -34,7 +34,7 @@
 
 using namespace retract;
 
-Enemy::Enemy(core::Game* game) : Entity{ game }
+Enemy::Enemy(Game* game) : Entity{ game }
 {
     game->As<TowerGame>()->Enemies().emplace_back(this);
 
@@ -45,7 +45,7 @@ Enemy::Enemy(core::Game* game) : Entity{ game }
 
     Nav* nav = new Nav(this);
     nav->SetForwardSpeed(200.f);
-    nav->StartPath(Game()->As<TowerGame>()->GetGrid()->StartTile());
+    nav->StartPath(GetGame()->As<TowerGame>()->GetGrid()->StartTile());
 
 
     mCircle = new Circle(this);
@@ -53,15 +53,15 @@ Enemy::Enemy(core::Game* game) : Entity{ game }
 }
 Enemy::~Enemy()
 {
-    auto it = std::ranges::find(Game()->As<TowerGame>()->Enemies(), this);
-    Game()->As<TowerGame>()->Enemies().erase(it);
+    auto it = std::ranges::find(GetGame()->As<TowerGame>()->Enemies(), this);
+    GetGame()->As<TowerGame>()->Enemies().erase(it);
 }
 
 void Enemy::UpdateEntity(f32 delta)
 {
     Entity::UpdateEntity(delta);
 
-    vec2 diff = Position() - Game()->As<TowerGame>()->GetGrid()->EndTile()->Position();
+    vec2 diff = Position() - GetGame()->As<TowerGame>()->GetGrid()->EndTile()->Position();
     if(math::NearZero(diff.Length(), 10.f))
     {
         SetState(State::dead);

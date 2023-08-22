@@ -29,7 +29,7 @@
 namespace retract
 {
 
-Entity::Entity(core::Game* game) : m_state{State::active}, m_game{game}
+Entity::Entity(Game* game) : m_state{State::active}, m_game{game}
 {
     game->AddEntity(this);
 }

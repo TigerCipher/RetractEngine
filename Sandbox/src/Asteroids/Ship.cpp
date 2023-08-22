@@ -28,7 +28,7 @@
 #include "Retract/Components/Sprite.h"
 
 using namespace retract;
-Ship::Ship(retract::core::Game* game) : Entity{ game }
+Ship::Ship(Game* game) : Entity{ game }
 {
     AnimatedSprite*           anim  = new AnimatedSprite(this, 150);
     utl::vector<SDL_Texture*> anims = {
@@ -57,7 +57,7 @@ void Ship::EntityInput(const u8* key_state)
 {
     if(key_state[SDL_SCANCODE_SPACE] && mLaserCooldown <= 0.f)
     {
-        Laser* laser = new Laser(Game());
+        Laser* laser = new Laser(GetGame());
         laser->SetPosition(Position());
         laser->SetRotation(Rotation());
 

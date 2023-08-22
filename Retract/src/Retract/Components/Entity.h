@@ -27,12 +27,9 @@
 namespace retract
 {
 
-namespace core
-{
-class Game;
-}
 
 class Component;
+class Game;
 
 class Entity
 {
@@ -44,24 +41,24 @@ public:
         dead
     };
 
-    explicit Entity(core::Game* game);
+    explicit Entity(Game* game);
     virtual ~Entity();
 
     void Update(f32 delta);
     void UpdateComponents(f32 delta);
 
-    virtual void UpdateEntity(f32 delta){}
+    virtual void UpdateEntity(f32 delta) {}
 
-    void ProcessInput(const u8* key_state);
-    virtual void EntityInput(const u8* key_state){}
+    void         ProcessInput(const u8* key_state);
+    virtual void EntityInput(const u8* key_state) {}
 
     void AddComponent(Component* comp);
     void RemoveComponent(Component* comp);
 
     constexpr State CurrentState() const { return m_state; }
-    void SetState(State state) { m_state = state; }
+    void            SetState(State state) { m_state = state; }
 
-    core::Game* Game() const { return m_game; }
+    Game* GetGame() const { return m_game; }
 
     constexpr vec2 Position() const { return m_position; }
     constexpr f32  Scale() const { return m_scale; }
@@ -74,10 +71,9 @@ public:
     vec2 Forward() const { return { cosf(m_rotation), -sinf(m_rotation) }; }
 
 
-
 private:
     State                   m_state;
-    core::Game*             m_game;
+    Game*                   m_game;
     utl::vector<Component*> m_components;
 
     vec2 m_position;

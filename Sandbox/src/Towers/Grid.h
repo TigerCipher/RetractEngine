@@ -30,7 +30,7 @@ class Tile;
 class Grid : public retract::Entity
 {
 public:
-    Grid(retract::core::Game* game);
+    Grid(retract::Game* game);
 
     void ProcessClick(i32 x, i32 y);
     bool FindPath(Tile* start, Tile* goal);

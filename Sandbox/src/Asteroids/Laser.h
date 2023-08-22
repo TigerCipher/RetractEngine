@@ -29,7 +29,7 @@
 class Laser : public retract::Entity
 {
 public:
-    Laser(class retract::core::Game* game);
+    Laser(retract::Game* game);
     void UpdateEntity(f32 delta) override;
 private:
     class Circle* mCircle{nullptr};
