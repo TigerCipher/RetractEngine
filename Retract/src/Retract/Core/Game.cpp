@@ -25,12 +25,13 @@
 
 #include "Retract/Components/Entity.h"
 #include "Retract/Components/Sprite.h"
+#include "Window.h"
 
-#include <SDL.h>
-#include <SDL_image.h>
+#include <SDL2/SDL_image.h>
 
 #include <algorithm>
 #include <ranges>
+#include <GL/glew.h>
 
 
 namespace retract
@@ -54,24 +55,9 @@ bool Game::InitializeInternal()
 {
     random::Init();
     LOG_TRACE("ReactEngine initializing");
-    if (SDL_Init(SDL_INIT_VIDEO))
-    {
-        LOG_ERROR("Failed to initialize SDL: {}", SDL_GetError());
-        return false;
-    }
 
-    m_window = SDL_CreateWindow("Title here!", 200, 200, 1000, 800, 0);
-
-    if (!m_window)
+    if(!window::Init("Test", 1000, 800))
     {
-        LOG_ERROR("Failed to create window: {}", SDL_GetError());
-        return false;
-    }
-
-    m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    if (!m_renderer)
-    {
-        LOG_ERROR("Failed to create renderer: {}", SDL_GetError());
         return false;
     }
 
@@ -147,9 +133,7 @@ void Game::ShutdownInternal()
     m_textures.clear();
 
     IMG_Quit();
-    SDL_DestroyRenderer(m_renderer);
-    SDL_DestroyWindow(m_window);
-    SDL_Quit();
+    window::Shutdown();
 }
 void Game::AddEntity(Entity* entity)
 {
@@ -297,14 +281,18 @@ void Game::Update()
 
 void Game::Render()
 {
-    SDL_SetRenderDrawColor(m_renderer, 52, 15, 15, 255);
-    SDL_RenderClear(m_renderer);
+    glClearColor(0.85f, 0.2f, 0.2f, 1.f);
+    glClear(GL_COLOR_BUFFER_BIT);
+    //SDL_SetRenderDrawColor(m_renderer, 52, 15, 15, 255);
+    //SDL_RenderClear(m_renderer);
 
-    for (auto* spr : m_sprites)
-    {
-        spr->Draw(m_renderer);
-    }
+    //for (auto* spr : m_sprites)
+    //{
+    //    spr->Draw(m_renderer);
+    //}
 
-    SDL_RenderPresent(m_renderer);
+    //SDL_RenderPresent(m_renderer);
+
+    window::SwapBuffers();
 }
 } // namespace retract

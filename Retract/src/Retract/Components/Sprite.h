@@ -25,7 +25,7 @@
 #include "Retract/Common.h"
 #include "Component.h"
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 namespace retract
 {

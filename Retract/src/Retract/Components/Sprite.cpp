@@ -26,7 +26,6 @@
 #include "Entity.h"
 #include "Retract/Core/Game.h"
 
-#include <SDL.h>
 
 namespace retract
 {
