@@ -284,7 +284,7 @@ void Game::Update()
 
 void Game::Render() const
 {
-    glClearColor(0.85f, 0.2f, 0.2f, 1.f);
+    glClearColor(0.2f, 0.2f, 0.2f, 1.f);
     glClear(GL_COLOR_BUFFER_BIT);
 
     glEnable(GL_BLEND);

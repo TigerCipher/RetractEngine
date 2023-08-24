@@ -80,7 +80,7 @@ public:
         mRecalculateTransform = true;
     }
 
-    vec2 Forward() const { return { math::Cos(mRotation), -math::Sin(mRotation) }; }
+    vec2 Forward() const { return { math::Cos(mRotation), math::Sin(mRotation) }; }
 
 
 private:
