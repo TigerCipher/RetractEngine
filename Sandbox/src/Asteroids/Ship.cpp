@@ -27,11 +27,14 @@
 #include "Retract/Core/Game.h"
 #include "Retract/Components/Sprite.h"
 
+#include <SDL2/SDL.h>
+
 using namespace retract;
 Ship::Ship()
 {
-    AnimatedSprite*           anim  = new AnimatedSprite(this, 150);
-    utl::vector<const char*> anims = {
+    auto* anim = new AnimatedSprite(this, 150);
+
+    const utl::vector<const char*> anims = {
         "./Content/ship01.png",
         "./Content/ship02.png",
         "./Content/ship03.png",
@@ -39,7 +42,7 @@ Ship::Ship()
     };
     anim->SetTextures(anims);
 
-    Input* ic = new Input(this);
+    auto* ic = new Input(this);
     ic->SetForwardKey(SDL_SCANCODE_W);
     ic->SetBackKey(SDL_SCANCODE_S);
     ic->SetClockwiseKey(SDL_SCANCODE_A);
@@ -55,7 +58,7 @@ void Ship::UpdateEntity(f32 delta)
 
 void Ship::EntityInput(const u8* key_state)
 {
-    if(key_state[SDL_SCANCODE_SPACE] && mLaserCooldown <= 0.f)
+    if (key_state[SDL_SCANCODE_SPACE] && mLaserCooldown <= 0.f)
     {
         Laser* laser = new Laser();
         laser->SetPosition(Position());

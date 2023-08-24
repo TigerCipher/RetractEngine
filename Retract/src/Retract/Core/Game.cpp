@@ -26,8 +26,10 @@
 #include "Retract/Components/Entity.h"
 #include "Retract/Components/Sprite.h"
 #include "Window.h"
+#include "Resources.h"
+#include "Retract/Graphics/VertexArray.h"
 
-#include <SDL2/SDL_image.h>
+#include <SDL2/SDL.h>
 
 #include <algorithm>
 #include <ranges>
@@ -44,7 +46,40 @@ struct FrameInfo
     f32 ticks{};
 };
 
-FrameInfo frame_info{};
+FrameInfo          frame_info{};
+ref<Shader>        sprite_shader{};
+scope<VertexArray> sprite_verts{};
+
+void CreateSpriteVerts()
+{
+    std::vector<f32> vertices{
+        -0.5f, 0.5f,  0.f, 0.f, 0.f, // top left
+        0.5f,  0.5f,  0.f, 1.f, 0.f, // top right
+        0.5f,  -0.5f, 0.f, 1.f, 1.f, // bottom right
+        -0.5f, -0.5f, 0.f, 0.f, 1.f  // bottom left
+    };
+
+    std::vector<u32> indices{ 0, 1, 2, 2, 3, 0 };
+
+    sprite_verts = CreateScope<VertexArray>(vertices, 4, indices);
+}
+
+bool LoadShaders()
+{
+    sprite_shader = core::LoadShader("Sprite", "./Shaders/Sprite.vert", "./Shaders/Sprite.frag");
+    if (!sprite_shader)
+    {
+        return false;
+    }
+
+    sprite_shader->Activate();
+
+    const mat4 viewProj = math::SimpleViewProjection((f32) window::Width(), (f32) window::Height());
+    sprite_shader->SetMatrix("ViewProj", viewProj);
+
+    return true;
+}
+
 } // anonymous namespace
 
 
@@ -53,19 +88,20 @@ bool  Game::mConstructed = false;
 
 bool Game::InitializeInternal()
 {
-    random::Init();
     LOG_TRACE("ReactEngine initializing");
+    random::Init();
 
-    if(!window::Init("Test", 1000, 800))
+    if (!window::Init("Test", 1000, 800))
     {
         return false;
     }
 
-    if (!IMG_Init(IMG_INIT_PNG))
+    if (!LoadShaders())
     {
-        LOG_ERROR("Failed to initialize SDL Image");
+        LOG_ERROR("Failed to load shaders");
         return false;
     }
+    CreateSpriteVerts();
 
     Init();
     return true;
@@ -102,7 +138,7 @@ i32 Game::Run()
         const u32   frame_time = SDL_GetTicks() - start_time;
         f32         fps        = (frame_time > 0) ? 1000.0f / (f32) frame_time : 0.0f;
         std::string title      = std::format("RetractEngine - FPS: {:.5f}", fps);
-        SDL_SetWindowTitle(m_window, title.c_str());
+        window::SetTitle(title);
 
         const u32 elapsed = SDL_GetTicks() - st;
         if (elapsed >= 1000)
@@ -116,7 +152,7 @@ i32 Game::Run()
     return 0;
 }
 
-void Game::ShutdownInternal()
+void Game::ShutdownInternal() const
 {
     LOG_TRACE("ReactEngine shutting down");
 
@@ -126,13 +162,9 @@ void Game::ShutdownInternal()
         delete m_entities.back();
     }
 
-    for (const auto val : m_textures | std::views::values)
-    {
-        SDL_DestroyTexture(val);
-    }
-    m_textures.clear();
+    core::UnloadTextures();
+    core::UnloadShaders();
 
-    IMG_Quit();
     window::Shutdown();
 }
 void Game::AddEntity(Entity* entity)
@@ -181,36 +213,6 @@ void Game::RemoveSprite(Sprite* sprite)
     m_sprites.erase(it);
 }
 
-SDL_Texture* Game::GetTexture(const char* filename)
-{
-    if (m_textures.contains(filename))
-    {
-        return m_textures[filename];
-    }
-
-    SDL_Texture* tex     = LoadTexture(filename);
-    m_textures[filename] = tex;
-    return tex;
-}
-
-SDL_Texture* Game::LoadTexture(const char* filename)
-{
-    SDL_Surface* surf = IMG_Load(filename);
-    if (!surf)
-    {
-        LOG_ERROR("Failed to load texture file: {}", filename);
-        return nullptr;
-    }
-
-    SDL_Texture* tex = SDL_CreateTextureFromSurface(m_renderer, surf);
-    if (!tex)
-    {
-        LOG_ERROR("Failed to convert surface to texture from {}", filename);
-        return nullptr;
-    }
-
-    return tex;
-}
 
 void Game::ProcessInputInternal()
 {
@@ -257,6 +259,7 @@ void Game::Update()
 
     for (auto* pending_ent : m_pending_entities)
     {
+        pending_ent->CalculateWorldTransform();
         m_entities.emplace_back(pending_ent);
     }
     m_pending_entities.clear();
@@ -279,20 +282,23 @@ void Game::Update()
     }
 }
 
-void Game::Render()
+void Game::Render() const
 {
     glClearColor(0.85f, 0.2f, 0.2f, 1.f);
     glClear(GL_COLOR_BUFFER_BIT);
-    //SDL_SetRenderDrawColor(m_renderer, 52, 15, 15, 255);
-    //SDL_RenderClear(m_renderer);
 
-    //for (auto* spr : m_sprites)
-    //{
-    //    spr->Draw(m_renderer);
-    //}
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    //SDL_RenderPresent(m_renderer);
+    sprite_shader->Activate();
+    sprite_verts->Activate();
+
+    for (const auto sprite : m_sprites)
+    {
+        sprite->Draw(sprite_shader);
+    }
 
     window::SwapBuffers();
 }
+
 } // namespace retract

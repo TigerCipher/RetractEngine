@@ -35,6 +35,17 @@ SDL_Window*   window_handle{};
 SDL_GLContext gl_context{};
 u32           window_width{};
 u32           window_height{};
+
+void GLAPIENTRY GLErrorCallback(GLenum src, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message,
+                                const void* userParam)
+{
+    if (severity == GL_DEBUG_SEVERITY_HIGH)
+    {
+        LOG_ERROR("OpenGL Error (Severity: {}): {} (type = {}) -> {}", severity,
+                  (type == GL_DEBUG_TYPE_ERROR ? "*GL ERROR*" : "n/a"), type, message);
+    }
+}
+
 } // anonymous namespace
 
 bool Init(const char* title, u32 width, u32 height)
@@ -48,8 +59,8 @@ bool Init(const char* title, u32 width, u32 height)
     // Use the core OpenGL profile
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     // Specify version 4.4
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 4);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
     // Request a color buffer with 8-bits per RGBA channel
     SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
     SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
@@ -62,7 +73,7 @@ bool Init(const char* title, u32 width, u32 height)
 
     window_width  = width;
     window_height = height;
-    window_handle = SDL_CreateWindow(title, 100, 100, (i32)width, (i32)height, SDL_WINDOW_OPENGL);
+    window_handle = SDL_CreateWindow(title, 100, 100, (i32) width, (i32) height, SDL_WINDOW_OPENGL);
 
     if (!window_handle)
     {
@@ -75,7 +86,7 @@ bool Init(const char* title, u32 width, u32 height)
 
     glewExperimental = true;
 
-    if(glewInit() != GLEW_OK)
+    if (glewInit() != GLEW_OK)
     {
         LOG_ERROR("Failed to initialize glew");
         SDL_GL_DeleteContext(gl_context);
@@ -85,6 +96,11 @@ bool Init(const char* title, u32 width, u32 height)
     }
 
     glGetError();
+
+#ifdef _DEBUG
+    glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+    glDebugMessageCallback(GLErrorCallback, nullptr);
+#endif
 
     return true;
 }
@@ -99,6 +115,11 @@ void Shutdown()
 void SwapBuffers()
 {
     SDL_GL_SwapWindow(window_handle);
+}
+
+void SetTitle(const std::string& title)
+{
+    SDL_SetWindowTitle(window_handle, title.c_str());
 }
 
 SDL_Window* Handle()

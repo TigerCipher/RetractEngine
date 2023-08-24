@@ -1,4 +1,4 @@
-﻿// ------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
 //
 // RetractEngine
 //    Copyright 2023 Matthew Rogers
@@ -15,26 +15,37 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-// File Name: AIComponent.h
-// Date File Created: 08/20/2023
+// File Name: Texture
+// Date File Created: 08/23/2023
 // Author: Matt
 //
 // ------------------------------------------------------------------------------
-
 #pragma once
-#include "Retract/Components/Component.h"
 
-class AIComponent : public retract::Component
+#include "Retract/Common.h"
+
+namespace retract
+{
+
+class Texture
 {
 public:
-    AIComponent(retract::Entity* owner) : Component{owner} {}
+    Texture() = default;
+    Texture(const std::string& filename);
+    ~Texture();
 
-    void Update(f32 delta) override;
+    bool Load(const std::string& filename);
+    void Unload() const;
+    void Activate() const;
 
-    void ChangeState(const std::string& name);
-    void RegisterState(class AIState* state);
+    constexpr u32 Id() const { return mId; }
+    constexpr i32 Width() const { return mWidth; }
+    constexpr i32 Height() const { return mHeight; }
 
 private:
-    std::unordered_map<std::string, AIState*> mStateMap{};
-    AIState* mCurrentState{nullptr};
+    u32 mId{};
+    i32 mWidth{};
+    i32 mHeight{};
 };
+
+}

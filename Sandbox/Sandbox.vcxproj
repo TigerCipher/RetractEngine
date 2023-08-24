@@ -149,18 +149,8 @@
     <ClCompile Include="src\Asteroids\Input.cpp" />
     <ClCompile Include="src\Asteroids\Laser.cpp" />
     <ClCompile Include="src\Asteroids\Move.cpp" />
-    <ClCompile Include="src\Asteroids\Background.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Asteroids\Ship.cpp" />
-    <ClCompile Include="src\Towers\AIComponent.cpp" />
-    <ClCompile Include="src\Towers\AIState.cpp" />
-    <ClCompile Include="src\Towers\Bullet.cpp" />
-    <ClCompile Include="src\Towers\Enemy.cpp" />
-    <ClCompile Include="src\Towers\Grid.cpp" />
-    <ClCompile Include="src\Towers\Nav.cpp" />
-    <ClCompile Include="src\Towers\Tile.cpp" />
-    <ClCompile Include="src\Towers\Tower.cpp" />
-    <ClCompile Include="src\Towers\TowerGame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Asteroids\Asteroid.h" />
@@ -169,17 +159,11 @@
     <ClInclude Include="src\Asteroids\Input.h" />
     <ClInclude Include="src\Asteroids\Laser.h" />
     <ClInclude Include="src\Asteroids\Move.h" />
-    <ClInclude Include="src\Asteroids\Background.h" />
     <ClInclude Include="src\Asteroids\Ship.h" />
-    <ClInclude Include="src\Towers\AIComponent.h" />
-    <ClInclude Include="src\Towers\AIState.h" />
-    <ClInclude Include="src\Towers\Bullet.h" />
-    <ClInclude Include="src\Towers\Enemy.h" />
-    <ClInclude Include="src\Towers\Grid.h" />
-    <ClInclude Include="src\Towers\Nav.h" />
-    <ClInclude Include="src\Towers\Tile.h" />
-    <ClInclude Include="src\Towers\Tower.h" />
-    <ClInclude Include="src\Towers\TowerGame.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\Sprite.frag" />
+    <None Include="Shaders\Sprite.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

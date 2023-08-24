@@ -44,7 +44,7 @@ public:
     virtual ~Entity();
 
     void Update(f32 delta);
-    void UpdateComponents(f32 delta);
+    void UpdateComponents(f32 delta) const;
 
     virtual void UpdateEntity(f32 delta) {}
 
@@ -54,27 +54,45 @@ public:
     void AddComponent(Component* comp);
     void RemoveComponent(Component* comp);
 
-    constexpr State CurrentState() const { return m_state; }
-    void            SetState(State state) { m_state = state; }
+    constexpr State CurrentState() const { return mState; }
+    void            SetState(State state) { mState = state; }
 
-    constexpr vec2 Position() const { return m_position; }
-    constexpr f32  Scale() const { return m_scale; }
-    constexpr f32  Rotation() const { return m_rotation; }
 
-    void SetPosition(const vec2& pos) { m_position = pos; }
-    void SetScale(const f32 scale) { m_scale = scale; }
-    void SetRotation(const f32 rotation) { m_rotation = rotation; }
+    void           CalculateWorldTransform();
+    const mat4&    WorldTransform() const { return mWorldTransform; }
+    constexpr vec2 Position() const { return mPosition; }
+    constexpr f32  Scale() const { return mScale; }
+    constexpr f32  Rotation() const { return mRotation; }
 
-    vec2 Forward() const { return { cosf(m_rotation), -sinf(m_rotation) }; }
+    void SetPosition(const vec2& pos)
+    {
+        mPosition             = pos;
+        mRecalculateTransform = true;
+    }
+    void SetScale(const f32 scale)
+    {
+        mScale                = scale;
+        mRecalculateTransform = true;
+    }
+    void SetRotation(const f32 rotation)
+    {
+        mRotation             = rotation;
+        mRecalculateTransform = true;
+    }
+
+    vec2 Forward() const { return { math::Cos(mRotation), -math::Sin(mRotation) }; }
 
 
 private:
-    State                   m_state;
-    utl::vector<Component*> m_components;
+    State                   mState;
+    utl::vector<Component*> mComponents;
 
-    vec2 m_position;
-    f32  m_scale{ 1.0f };
-    f32  m_rotation{ 0.0f };
+    mat4 mWorldTransform{};
+    bool mRecalculateTransform{ true };
+
+    vec2 mPosition;
+    f32  mScale{ 1.f };
+    f32  mRotation{};
 };
 
 } // namespace retract

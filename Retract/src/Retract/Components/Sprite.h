@@ -24,8 +24,8 @@
 
 #include "Retract/Common.h"
 #include "Component.h"
-
-#include <SDL2/SDL.h>
+#include "Retract/Graphics/Shader.h"
+#include "Retract/Graphics/Texture.h"
 
 namespace retract
 {
@@ -37,19 +37,19 @@ public:
     Sprite(Entity* owner, i32 draw_order = 100);
     ~Sprite() override;
 
-    virtual void Draw(SDL_Renderer* renderer);
-    virtual void SetTexture(SDL_Texture* texture);
+    virtual void Draw(const ref<Shader>& shader);
+    virtual void SetTexture(const ref<Texture>& texture);
     virtual void SetTexture(const char* filename);
 
-    [[nodiscard]] constexpr i32 DrawOrder() const { return m_draw_order; }
-    [[nodiscard]] constexpr i32 Width() const { return m_width; }
-    [[nodiscard]] constexpr i32 Height() const { return m_height; }
+    [[nodiscard]] constexpr i32 DrawOrder() const { return mDrawOrder; }
+    [[nodiscard]] constexpr i32 Width() const { return mWidth; }
+    [[nodiscard]] constexpr i32 Height() const { return mHeight; }
 
 protected:
-    i32          m_draw_order{ 100 };
-    SDL_Texture* m_texture{ nullptr };
-    i32          m_width{ 0 };
-    i32          m_height{ 0 };
+    i32          mDrawOrder{ 100 };
+    ref<Texture> mTexture{ nullptr };
+    i32          mWidth{ 0 };
+    i32          mHeight{ 0 };
 };
 
 class AnimatedSprite : public Sprite
@@ -59,15 +59,15 @@ public:
 
     void Update(f32 delta) override;
 
-    void SetTextures(const utl::vector<SDL_Texture*>& textures);
-    void SetTextures(const utl::vector<const char*>& filenames);
+    void SetTextures(const std::vector<const char*>& filenames);
 
-    constexpr f32 Fps() const { return m_fps; }
-    void SetFps(f32 fps) { m_fps = fps; }
+    constexpr f32 Fps() const { return mFps; }
+    void          SetFps(f32 fps) { mFps = fps; }
+
 private:
-    utl::vector<SDL_Texture*> m_textures{};
-    f32 m_current_frame{};
-    f32 m_fps{24.0f};
+    std::vector<ref<Texture>> mTextures{};
+    f32                       mCurrentFrame{};
+    f32                       mFps{ 24.0f };
 };
 
 } // namespace retract

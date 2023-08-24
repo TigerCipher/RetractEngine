@@ -28,7 +28,6 @@
 #endif
 
 #include "Asteroids/AsteroidGame.h"
-#include "Towers/TowerGame.h"
 
 
 #include <Windows.h>

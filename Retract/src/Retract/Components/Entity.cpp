@@ -29,7 +29,7 @@
 namespace retract
 {
 
-Entity::Entity() : m_state{State::active}
+Entity::Entity() : mState{ State::active }
 {
     Game::Instance()->AddEntity(this);
 }
@@ -37,32 +37,39 @@ Entity::Entity() : m_state{State::active}
 Entity::~Entity()
 {
     Game::Instance()->RemoveEntity(this);
-    while(!m_components.empty())
+    while (!mComponents.empty())
     {
-        auto& comp = m_components.back();
+        auto& comp = mComponents.back();
         delete comp;
         comp = nullptr;
     }
 }
 void Entity::Update(f32 delta)
 {
-    if(m_state != State::active) return;
+    if (mState != State::active)
+        return;
+
+    CalculateWorldTransform();
+
     UpdateComponents(delta);
     UpdateEntity(delta);
+
+    CalculateWorldTransform();
 }
 
-void Entity::UpdateComponents(f32 delta)
+void Entity::UpdateComponents(f32 delta) const
 {
-    for (auto* comp : m_components)
+    for (auto* comp : mComponents)
     {
         comp->Update(delta);
     }
 }
 void Entity::ProcessInput(const u8* key_state)
 {
-    if(m_state != State::active) return;
+    if (mState != State::active)
+        return;
 
-    for(const auto comp : m_components)
+    for (const auto comp : mComponents)
     {
         comp->ProcessInput(key_state);
     }
@@ -73,25 +80,43 @@ void Entity::ProcessInput(const u8* key_state)
 
 void Entity::AddComponent(Component* comp)
 {
-    i32 order = comp->UpdateOrder();
-    auto it = m_components.begin();
-    while(it != m_components.end())
+    const i32  order = comp->UpdateOrder();
+    auto it    = mComponents.begin();
+    while (it != mComponents.end())
     {
-        if(order < (*it)->UpdateOrder()) break;
+        if (order < (*it)->UpdateOrder())
+            break;
         ++it;
     }
 
-    m_components.insert(it, comp);
+    mComponents.insert(it, comp);
 }
 
 void Entity::RemoveComponent(Component* comp)
 {
-    auto it = std::ranges::find(m_components, comp);
-    if(it != m_components.end())
+    auto it = std::ranges::find(mComponents, comp);
+    if (it != mComponents.end())
     {
         //delete *it; // this method is called by Component dtor, deleting here might cause weirdness. Entity dtor will delete component
-        m_components.erase(it);
+        mComponents.erase(it);
     }
 }
 
+void Entity::CalculateWorldTransform()
+{
+    if (!mRecalculateTransform)
+        return;
+
+    mRecalculateTransform = false;
+    // Scale, rotate, translate
+    mWorldTransform = math::Scale(mScale);
+    mWorldTransform *= math::RotationZ(mRotation);
+    mWorldTransform *= math::Translation({ mPosition.x, mPosition.y, 0.f });
+
+    for (const auto comp : mComponents)
+    {
+        comp->OnUpdateWorldTransform();
+    }
 }
+
+} // namespace retract

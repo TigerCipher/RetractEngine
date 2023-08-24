@@ -25,13 +25,13 @@
 
 #include "Entity.h"
 #include "Retract/Core/Game.h"
-
+#include "Retract/Core/Resources.h"
 
 namespace retract
 {
 
 
-Sprite::Sprite(Entity* owner, i32 draw_order) : Component{owner}, m_draw_order{draw_order}
+Sprite::Sprite(Entity* owner, i32 draw_order) : Component{ owner }, mDrawOrder{ draw_order }
 {
     Game::Instance()->AddSprite(this);
 }
@@ -41,28 +41,37 @@ Sprite::~Sprite()
     Game::Instance()->RemoveSprite(this);
 }
 
-void Sprite::Draw(SDL_Renderer* renderer)
+void Sprite::Draw(const ref<Shader>& shader)
 {
-    if(!m_texture) return;
+    if (!mTexture)
+        return;
 
-    SDL_Rect r;
-    r.w = (i32)(m_width * m_owner->Scale());
-    r.h = (i32)(m_height * m_owner->Scale());
-    r.x = (i32) (m_owner->Position().x - (f32)r.w / 2.0f);
-    r.y = (i32) (m_owner->Position().y - (f32)r.h / 2.0f);
+    const mat4 scale = math::Scale((f32) mWidth, (f32) mHeight, 1.f);
+    const mat4 world = scale * mOwner->WorldTransform();
 
-    SDL_RenderCopyEx(renderer, m_texture, nullptr, &r, -math::ToDegrees(m_owner->Rotation()), nullptr, SDL_FLIP_NONE);
+    // All sprites use the same shader, so the shader is set active elsewhere
+
+    shader->SetMatrix("WorldTransform", world);
+    mTexture->Activate();
+
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }
 
-void Sprite::SetTexture(SDL_Texture* texture)
+void Sprite::SetTexture(const ref<Texture>& texture)
 {
-    m_texture = texture;
-    SDL_QueryTexture(texture, nullptr, nullptr, &m_width, &m_height);
+    mTexture = texture;
+    mWidth   = texture->Width();
+    mHeight  = texture->Height();
 }
 
 void Sprite::SetTexture(const char* filename)
 {
-    SetTexture(Game::Instance()->GetTexture(filename));
+    mTexture = core::GetTexture(filename);
+    if (mTexture)
+    {
+        mWidth  = mTexture->Width();
+        mHeight = mTexture->Height();
+    }
 }
 
 
@@ -70,33 +79,27 @@ void AnimatedSprite::Update(f32 delta)
 {
     Sprite::Update(delta);
 
-    if(m_textures.empty()) return;
-
-    m_current_frame += m_fps * delta;
-    while(m_current_frame >= (f32)m_textures.size())
-    {
-        m_current_frame -= (f32) m_textures.size();
-    }
-    SetTexture(m_textures[(u32)m_current_frame]);
-}
-
-void AnimatedSprite::SetTextures(const utl::vector<SDL_Texture*>& textures)
-{
-    m_textures = textures;
-    if (m_textures.empty())
+    if (mTextures.empty())
         return;
-    m_current_frame = 0.0f;
-    SetTexture(m_textures[0]);
+
+    mCurrentFrame += mFps * delta;
+    while (mCurrentFrame >= (f32) mTextures.size())
+    {
+        mCurrentFrame -= (f32) mTextures.size();
+    }
+    SetTexture(mTextures[(u32) mCurrentFrame]);
 }
+
+
 void AnimatedSprite::SetTextures(const utl::vector<const char*>& filenames)
 {
-    utl::vector<SDL_Texture*> textures{};
-    for(const auto f : filenames)
+    for (const auto f : filenames)
     {
-        textures.emplace_back(Game::Instance()->GetTexture(f));
+        mTextures.emplace_back(core::GetTexture(f));
     }
 
-    SetTextures(textures);
+    mCurrentFrame = 0.f;
+    SetTexture(mTextures[0]);
 }
 
-}
+} // namespace retract

@@ -33,6 +33,7 @@ namespace retract::window
 bool Init(const char* title, u32 width, u32 height);
 void Shutdown();
 void SwapBuffers();
+void SetTitle(const std::string& title);
 
 SDL_Window* Handle();
 

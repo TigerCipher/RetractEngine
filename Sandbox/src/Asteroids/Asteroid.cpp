@@ -28,10 +28,10 @@ using namespace retract;
 
 Asteroid::Asteroid()
 {
-    vec2 pos = retract::random::Vector(retract::math::zero_vec2, { 1000, 800 });
+    const vec2 pos = random::Vector({-500, -400}, { 500, 400 });
     SetPosition(pos);
-    SetRotation(retract::random::Float(0.f, retract::math::two_pi));
-    m_sprite = new retract::Sprite(this);
+    SetRotation(random::Float(0.f, math::two_pi));
+    m_sprite = new Sprite(this);
     m_sprite->SetTexture("./Content/asteroid.png");
 
     m_circle = new Circle(this);

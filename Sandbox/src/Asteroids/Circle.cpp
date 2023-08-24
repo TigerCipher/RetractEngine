@@ -30,12 +30,12 @@ using namespace retract;
 
 f32 Circle::Radius() const
 {
-    return m_owner->Scale() * m_radius;
+    return mOwner->Scale() * m_radius;
 }
 
 vec2 Circle::Center() const
 {
-    return m_owner->Position();
+    return mOwner->Position();
 }
 
 bool Intersect(const Circle& a, const Circle& b)

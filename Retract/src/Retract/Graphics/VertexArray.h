@@ -15,56 +15,35 @@
 //     See the License for the specific language governing permissions and
 //     limitations under the License.
 //
-//  File Name: AIState.cpp
-//  Date File Created: 08/20/2023
+//  File Name: VertexArray.h
+//  Date File Created: 08/24/2023
 //  Author: Matt
 //
 //  ------------------------------------------------------------------------------
-#include "AIState.h"
-#include "AIComponent.h"
 
-void AIPatrol::Update(f32 delta)
-{
-    LOG_TRACE("Updating {} state", Name());
-    if constexpr (true)
-    {
-        mOwner->ChangeState("Death");
-    }
-}
+#pragma once
 
-void AIPatrol::OnEnter()
-{
-    LOG_TRACE("Entering {} state", Name());
-}
-void AIPatrol::OnExit()
-{
-    LOG_TRACE("Exiting {} state", Name());
-}
+#include "Retract/Common.h"
 
-void AIDeath::Update(f32 delta)
+namespace retract
 {
-    LOG_TRACE("Updating {} state", Name());
-}
 
-void AIDeath::OnEnter()
+class VertexArray
 {
-    LOG_TRACE("Entering {} state", Name());
-}
-void AIDeath::OnExit()
-{
-    LOG_TRACE("Exiting {} state", Name());
-}
+public:
+    VertexArray(const std::vector<f32>& vertices, u32 num_verts, const std::vector<u32>& indices);
+    ~VertexArray();
 
-void AIAttack::Update(f32 delta)
-{
-    LOG_TRACE("Updating {} state", Name());
-}
+    void Activate() const;
 
-void AIAttack::OnEnter()
-{
-    LOG_TRACE("Entering {} state", Name());
-}
-void AIAttack::OnExit()
-{
-    LOG_TRACE("Exiting {} state", Name());
-}
+    constexpr u32 NumVerts() const { return mNumVerts; }
+    constexpr u32 NumIndices() const { return mNumIndices; }
+private:
+    u32 mNumVerts{};
+    u32 mNumIndices{};
+    u32 mVbo{};
+    u32 mIbo{};
+    u32 mVao{};
+};
+
+} // namespace retract

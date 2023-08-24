@@ -15,25 +15,42 @@
 //     See the License for the specific language governing permissions and
 //     limitations under the License.
 //
-//  File Name: Tower.h
-//  Date File Created: 08/20/2023
+//  File Name: Shader.h
+//  Date File Created: 08/24/2023
 //  Author: Matt
 //
 //  ------------------------------------------------------------------------------
 
 #pragma once
 
-#include "Retract/Components/Entity.h"
+#include "Retract/Common.h"
 
-class Tower : public retract::Entity
+
+#include <GL/glew.h>
+
+namespace retract
+{
+
+class Shader
 {
 public:
-    Tower();
-    void UpdateEntity(f32 delta) override;
-private:
-    class Move* mMove{};
-    f32 mNextAttack{};
+    Shader() = default;
+    Shader(const std::string& vertex, const std::string& frag);
+    ~Shader();
 
-    const f32 attack_time = 2.5f;
-    const f32 attack_range = 100.f;
+    bool Load(const std::string& vertex, const std::string& frag);
+    void Unload() const;
+
+    void Activate() const;
+
+    void SetMatrix(const char* name, const mat4& matrix) const;
+
+private:
+    bool IsValid() const;
+
+    GLuint mVertexShader{};
+    GLuint mFragShader{};
+    GLuint mProgram{};
 };
+
+} // namespace retract

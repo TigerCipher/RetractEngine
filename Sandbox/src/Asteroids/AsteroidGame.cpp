@@ -24,8 +24,8 @@
 
 
 #include "Asteroid.h"
-#include "Background.h"
 
+using namespace retract;
 
 void AsteroidGame::Init()
 {
@@ -34,27 +34,7 @@ void AsteroidGame::Init()
     //AddEntity(asteroid);
 
     ship = new Ship();
-    ship->SetPosition({ 100.f, 384.f });
-
-
-    auto* temp = new retract::Entity();
-    temp->SetPosition({ 512, 400 });
-    auto* bg = new Background(temp);
-    bg->SetScreenSize({ 1000, 800 });
-    retract::utl::vector<SDL_Texture*> bgtex{
-        GetTexture("./Content/bg01.png"),
-        GetTexture("./Content/bg02.png"),
-    };
-    bg->SetTextures(bgtex);
-    bg->SetScrollSpeed(-100.f);
-
-    bg = new Background(temp, 50);
-    bg->SetScreenSize({ 1000, 800 });
-    bgtex.clear();
-    bgtex.emplace_back(GetTexture("./Content/stars.png"));
-    bgtex.emplace_back(GetTexture("./Content/stars.png"));
-    bg->SetTextures(bgtex);
-    bg->SetScrollSpeed(-200.f);
+    //ship->SetPosition({ 100.f, 384.f });
 
     constexpr u32 numAsteroids = 20;
     for (u32 i = 0; i < numAsteroids; ++i)

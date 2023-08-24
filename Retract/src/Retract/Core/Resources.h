@@ -15,45 +15,26 @@
 //     See the License for the specific language governing permissions and
 //     limitations under the License.
 //
-//  File Name: Nav.h
-//  Date File Created: 08/20/2023
+//  File Name: Resources.h
+//  Date File Created: 08/24/2023
 //  Author: Matt
 //
 //  ------------------------------------------------------------------------------
 
+#pragma once
 
-#include "Nav.h"
+#include "Retract/Common.h"
+#include "Retract/Graphics/Shader.h"
+#include "Retract/Graphics/Texture.h"
 
-
-#include "Tile.h"
-#include "Retract/Components/Entity.h"
-
-using namespace retract;
-
-void Nav::Update(f32 delta)
+namespace retract::core
 {
-    if (mNextNode)
-    {
-        vec2 diff = m_owner->Position() - mNextNode->Position();
-        if (math::NearZero(diff.Length(), 2.f))
-        {
-            mNextNode = mNextNode->Parent();
-            TurnTo(mNextNode->Position());
-        }
-    }
 
-    Move::Update(delta);
-}
+ref<Texture> GetTexture(const std::string& filename);
+void UnloadTextures();
 
-void Nav::StartPath(Tile* start)
-{
-    mNextNode = start->Parent();
-    TurnTo(mNextNode->Position());
-}
+ref<Shader> LoadShader(const std::string& name, const std::string& vertex, const std::string& frag);
+ref<Shader> GetShader(const std::string& name);
+void UnloadShaders();
 
-void Nav::TurnTo(const vec2& pos)
-{
-    const vec2 dir   = pos - m_owner->Position();
-    const f32  angle = math::Atan2(-dir.y, dir.x);
-    m_owner->SetRotation(angle);
 }

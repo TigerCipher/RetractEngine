@@ -25,8 +25,6 @@
 
 #include "Retract/Common.h"
 
-#include <SDL2/SDL.h>
-
 
 namespace retract
 {
@@ -50,14 +48,6 @@ public:
     void AddSprite(Sprite* sprite);
     void RemoveSprite(Sprite* sprite);
 
-    SDL_Texture* GetTexture(const char* filename); // TODO: Add to a resource manager instead
-
-    //template<typename T>
-    //T* As()
-    //{
-    //    return dynamic_cast<T*>(this);
-    //}
-
     template<typename T>
     static T* As()
     {
@@ -67,23 +57,19 @@ public:
     static Game* Instance() { return mInstance; }
 
 private:
-    bool         InitializeInternal();
-    void         ShutdownInternal();
-    void         ProcessInputInternal();
-    void         Update();
-    void         Render();
-    SDL_Texture* LoadTexture(const char* filename);
+    bool InitializeInternal();
+    void ShutdownInternal() const;
+    void ProcessInputInternal();
+    void Update();
+    void Render() const;
 
-    bool          m_running{ false };
-    SDL_Window*   m_window{ nullptr };
-    SDL_Renderer* m_renderer{ nullptr }; // TODO: Testing purposes only
+    bool m_running{ false };
 
     utl::vector<Entity*> m_entities{};
     utl::vector<Entity*> m_pending_entities{};
     bool                 m_updating_entities{ false };
 
-    std::unordered_map<std::string, SDL_Texture*> m_textures{};
-    utl::vector<Sprite*>                          m_sprites{};
+    utl::vector<Sprite*> m_sprites{};
 
     static Game* mInstance;
     static bool  mConstructed;

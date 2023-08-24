@@ -27,14 +27,14 @@
 namespace retract
 {
 
-Component::Component(Entity* owner, i32 update_order): m_owner{owner}, m_update_order{update_order}
+Component::Component(Entity* owner, i32 update_order): mOwner{owner}, mUpdateOrder{update_order}
 {
-    m_owner->AddComponent(this);
+    mOwner->AddComponent(this);
 }
 
 Component::~Component()
 {
-    m_owner->RemoveComponent(this);
+    mOwner->RemoveComponent(this);
 }
 
 void Component::Update(f32 delta) {}

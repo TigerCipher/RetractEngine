@@ -32,26 +32,26 @@ void Move::Update(f32 delta)
 {
     if(!math::NearZero(m_angular_speed))
     {
-        f32 rot = m_owner->Rotation();
+        f32 rot = mOwner->Rotation();
         rot += m_angular_speed * delta;
-        m_owner->SetRotation(rot);
+        mOwner->SetRotation(rot);
     }
 
     if(!math::NearZero(m_forward_speed))
     {
-        vec2 pos = m_owner->Position();
-        pos += m_owner->Forward() * m_forward_speed * delta;
-        if (pos.x < 0.0f)
-            pos.x = 998.0f;
-        else if (pos.x > 1000.0f)
-            pos.x = 2.0f;
+        vec2 pos = mOwner->Position();
+        pos += mOwner->Forward() * m_forward_speed * delta;
+        if (pos.x < -500.f)
+            pos.x = 498.f;
+        else if (pos.x > 500.f)
+            pos.x = -498.f;
 
-        if (pos.y < 0.0f)
-            pos.y = 798.0f;
-        else if (pos.y > 800.0f)
-            pos.y = 2.0f;
+        if (pos.y < -400.f)
+            pos.y = 398.f;
+        else if (pos.y > 400.f)
+            pos.y = -398.f;
 
-        m_owner->SetPosition(pos);
+        mOwner->SetPosition(pos);
         
     }
 }

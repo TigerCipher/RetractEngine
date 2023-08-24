@@ -36,11 +36,12 @@ public:
 
     virtual void Update(f32 delta);
     virtual void ProcessInput(const u8* key_state) {}
+    virtual void OnUpdateWorldTransform() {}
 
-    [[nodiscard]] constexpr i32 UpdateOrder() const { return m_update_order; }
+    [[nodiscard]] constexpr i32 UpdateOrder() const { return mUpdateOrder; }
 
 protected:
-    Entity* m_owner{ nullptr };
-    i32     m_update_order{};
+    Entity* mOwner{ nullptr };
+    i32     mUpdateOrder{};
 };
-} // namespace retract::components
+} // namespace retract
