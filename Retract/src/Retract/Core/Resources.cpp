@@ -30,18 +30,18 @@ namespace retract::core
 
 namespace
 {
-std::unordered_map<std::string, ref<Texture>> textures{};
-std::unordered_map<std::string, ref<Shader>>  shaders{};
+std::unordered_map<std::string, Texture*> textures{};
+std::unordered_map<std::string, Shader*>  shaders{};
 } // anonymous namespace
 
-ref<Texture> GetTexture(const std::string& filename)
+Texture* GetTexture(const std::string& filename)
 {
     if (const auto it = textures.find(filename); it != textures.end())
     {
         return it->second;
     }
 
-    if (ref<Texture> tex = CreateRef<Texture>(); tex->Load(filename))
+    if (auto tex = DBG_NEW Texture{}; tex->Load(filename))
     {
         textures.emplace(filename, tex);
         return tex;
@@ -55,12 +55,13 @@ void UnloadTextures()
     for (const auto& tex : textures | std::views::values)
     {
         tex->Unload();
+        delete tex;
     }
 }
 
-ref<Shader> LoadShader(const std::string& name, const std::string& vertex, const std::string& frag)
+Shader* LoadShader(const std::string& name, const std::string& vertex, const std::string& frag)
 {
-    if (auto shader = CreateRef<Shader>(); shader->Load(vertex, frag))
+    if (auto shader = DBG_NEW Shader{}; shader->Load(vertex, frag))
     {
         shaders.emplace(name, shader);
         return shader;
@@ -69,16 +70,17 @@ ref<Shader> LoadShader(const std::string& name, const std::string& vertex, const
     return nullptr;
 }
 
-ref<Shader> GetShader(const std::string& name)
+Shader* GetShader(const std::string& name)
 {
     assert(shaders.contains(name));
     return shaders[name];
 }
 void UnloadShaders()
 {
-    for(const auto& s : shaders | std::views::values)
+    for (const auto& s : shaders | std::views::values)
     {
         s->Unload();
+        delete s;
     }
 }
 

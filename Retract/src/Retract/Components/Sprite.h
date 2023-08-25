@@ -37,8 +37,8 @@ public:
     Sprite(Entity* owner, i32 draw_order = 100);
     ~Sprite() override;
 
-    virtual void Draw(const ref<Shader>& shader);
-    virtual void SetTexture(const ref<Texture>& texture);
+    virtual void Draw(Shader* shader);
+    virtual void SetTexture(Texture* texture);
     virtual void SetTexture(const char* filename);
 
     [[nodiscard]] constexpr i32 DrawOrder() const { return mDrawOrder; }
@@ -46,10 +46,10 @@ public:
     [[nodiscard]] constexpr i32 Height() const { return mHeight; }
 
 protected:
-    i32          mDrawOrder{ 100 };
-    ref<Texture> mTexture{ nullptr };
-    i32          mWidth{ 0 };
-    i32          mHeight{ 0 };
+    i32      mDrawOrder{ 100 };
+    Texture* mTexture{ nullptr };
+    i32      mWidth{ 0 };
+    i32      mHeight{ 0 };
 };
 
 class AnimatedSprite : public Sprite
@@ -65,9 +65,9 @@ public:
     void          SetFps(f32 fps) { mFps = fps; }
 
 private:
-    std::vector<ref<Texture>> mTextures{};
-    f32                       mCurrentFrame{};
-    f32                       mFps{ 24.0f };
+    std::vector<Texture*> mTextures{};
+    f32                   mCurrentFrame{};
+    f32                   mFps{ 24.0f };
 };
 
 } // namespace retract

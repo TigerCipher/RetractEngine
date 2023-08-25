@@ -47,8 +47,8 @@ struct FrameInfo
 };
 
 FrameInfo          frame_info{};
-ref<Shader>        sprite_shader{};
-scope<VertexArray> sprite_verts{};
+Shader*            sprite_shader{};
+VertexArray* sprite_verts{};
 
 void CreateSpriteVerts()
 {
@@ -61,7 +61,7 @@ void CreateSpriteVerts()
 
     std::vector<u32> indices{ 0, 1, 2, 2, 3, 0 };
 
-    sprite_verts = CreateScope<VertexArray>(vertices, 4, indices);
+    sprite_verts = DBG_NEW VertexArray(vertices, 4, indices);
 }
 
 bool LoadShaders()
@@ -161,6 +161,8 @@ void Game::ShutdownInternal() const
     {
         delete m_entities.back();
     }
+
+    delete sprite_verts;
 
     core::UnloadTextures();
     core::UnloadShaders();

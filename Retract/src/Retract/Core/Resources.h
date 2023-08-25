@@ -30,11 +30,11 @@
 namespace retract::core
 {
 
-ref<Texture> GetTexture(const std::string& filename);
+Texture* GetTexture(const std::string& filename);
 void UnloadTextures();
 
-ref<Shader> LoadShader(const std::string& name, const std::string& vertex, const std::string& frag);
-ref<Shader> GetShader(const std::string& name);
+Shader* LoadShader(const std::string& name, const std::string& vertex, const std::string& frag);
+Shader* GetShader(const std::string& name);
 void UnloadShaders();
 
 }

@@ -41,7 +41,7 @@ Sprite::~Sprite()
     Game::Instance()->RemoveSprite(this);
 }
 
-void Sprite::Draw(const ref<Shader>& shader)
+void Sprite::Draw(Shader* shader)
 {
     if (!mTexture)
         return;
@@ -57,7 +57,7 @@ void Sprite::Draw(const ref<Shader>& shader)
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }
 
-void Sprite::SetTexture(const ref<Texture>& texture)
+void Sprite::SetTexture(Texture* texture)
 {
     mTexture = texture;
     mWidth   = texture->Width();

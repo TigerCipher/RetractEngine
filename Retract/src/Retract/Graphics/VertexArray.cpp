@@ -34,7 +34,7 @@ VertexArray::VertexArray(const std::vector<f32>& vertices, u32 num_verts, const 
     mNumVerts   = num_verts;
     mNumIndices = (u32) indices.size();
 
-    //glGenVertexArrays(1, &mVao);
+    glGenVertexArrays(1, &mVao);
     glCreateVertexArrays(1, &mVao);
     glBindVertexArray(mVao);
 
