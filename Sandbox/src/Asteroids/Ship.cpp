@@ -32,7 +32,7 @@
 using namespace retract;
 Ship::Ship()
 {
-    auto* anim = new AnimatedSprite(this, 150);
+    auto* anim = DBG_NEW AnimatedSprite(this, 150);
 
     const utl::vector<const char*> anims = {
         "./Content/ship01.png",
@@ -42,7 +42,7 @@ Ship::Ship()
     };
     anim->SetTextures(anims);
 
-    auto* ic = new Input(this);
+    auto* ic = DBG_NEW Input(this);
     ic->SetForwardKey(SDL_SCANCODE_W);
     ic->SetBackKey(SDL_SCANCODE_S);
     ic->SetClockwiseKey(SDL_SCANCODE_A);
@@ -60,7 +60,7 @@ void Ship::EntityInput(const u8* key_state)
 {
     if (key_state[SDL_SCANCODE_SPACE] && mLaserCooldown <= 0.f)
     {
-        Laser* laser = new Laser();
+        Laser* laser = DBG_NEW Laser();
         laser->SetPosition(Position());
         laser->SetRotation(Rotation());
 

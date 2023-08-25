@@ -33,13 +33,13 @@ void AsteroidGame::Init()
     //asteroid = new Asteroid(this);
     //AddEntity(asteroid);
 
-    ship = new Ship();
-    //ship->SetPosition({ 100.f, 384.f });
+    ship = DBG_NEW Ship();
+    ship->SetPosition({ 100.f, 384.f });
 
     constexpr u32 numAsteroids = 20;
     for (u32 i = 0; i < numAsteroids; ++i)
     {
-        new Asteroid();
+        DBG_NEW Asteroid();
     }
 }
 void AsteroidGame::AddAsteroid(Asteroid* asteroid)

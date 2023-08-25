@@ -29,7 +29,7 @@
 
 #include "Asteroids/AsteroidGame.h"
 
-
+#define _CRTDBG_MAP_ALLOC
 #include <Windows.h>
 #include <crtdbg.h>
 

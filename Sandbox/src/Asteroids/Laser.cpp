@@ -35,13 +35,13 @@ using namespace retract;
 
 Laser::Laser()
 {
-    Sprite* sc = new Sprite(this, 5);
+    Sprite* sc = DBG_NEW Sprite(this, 5);
     sc->SetTexture("./Content/Laser.png");
 
-    Move* mc = new Move(this);
+    Move* mc = DBG_NEW Move(this);
     mc->SetForwardSpeed(800.f);
 
-    mCircle = new Circle(this);
+    mCircle = DBG_NEW Circle(this);
     mCircle->SetRadius(11.f);
 }
 

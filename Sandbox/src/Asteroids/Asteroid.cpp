@@ -31,13 +31,13 @@ Asteroid::Asteroid()
     const vec2 pos = random::Vector({-500, -400}, { 500, 400 });
     SetPosition(pos);
     SetRotation(random::Float(0.f, math::two_pi));
-    m_sprite = new Sprite(this);
+    m_sprite = DBG_NEW Sprite(this);
     m_sprite->SetTexture("./Content/asteroid.png");
 
-    m_circle = new Circle(this);
+    m_circle = DBG_NEW Circle(this);
     m_circle->SetRadius(32.f);
 
-    mc = new Move(this);
+    mc = DBG_NEW Move(this);
     mc->SetForwardSpeed(150.f);
     //dynamic_cast<AsteroidGame*>(game)->AddAsteroid(this);
     Game::As<AsteroidGame>()->AddAsteroid(this);
