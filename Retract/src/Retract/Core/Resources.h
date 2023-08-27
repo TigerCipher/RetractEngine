@@ -26,6 +26,7 @@
 #include "Retract/Common.h"
 #include "Retract/Graphics/Shader.h"
 #include "Retract/Graphics/Texture.h"
+#include "Retract/Graphics/Mesh.h"
 
 namespace retract::core
 {
@@ -36,5 +37,8 @@ void UnloadTextures();
 Shader* LoadShader(const std::string& name, const std::string& vertex, const std::string& frag);
 Shader* GetShader(const std::string& name);
 void UnloadShaders();
+
+Mesh* GetMesh(const std::string& filename);
+void  UnloadMeshes();
 
 }

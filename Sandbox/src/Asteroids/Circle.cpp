@@ -33,16 +33,16 @@ f32 Circle::Radius() const
     return mOwner->Scale() * m_radius;
 }
 
-vec2 Circle::Center() const
+vec3 Circle::Center() const
 {
     return mOwner->Position();
 }
 
 bool Intersect(const Circle& a, const Circle& b)
 {
-    vec2 diff    = a.Center() - b.Center();
-    f32  distsq  = diff.LengthSq();
-    f32  radiisq = a.Radius() + b.Radius();
+    const vec3 diff    = a.Center() - b.Center();
+    const f32  distsq  = diff.LengthSq();
+    f32        radiisq = a.Radius() + b.Radius();
     radiisq *= radiisq;
 
     return distsq <= radiisq;

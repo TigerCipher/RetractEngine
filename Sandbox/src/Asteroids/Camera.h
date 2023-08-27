@@ -15,44 +15,23 @@
 //     See the License for the specific language governing permissions and
 //     limitations under the License.
 //
-//  File Name: Shader.h
-//  Date File Created: 08/24/2023
+//  File Name: Camera.h
+//  Date File Created: 08/26/2023
 //  Author: Matt
 //
 //  ------------------------------------------------------------------------------
 
 #pragma once
 
-#include "Retract/Common.h"
+#include "Retract/Components/Entity.h"
+#include "Retract/Components/MoveComponent.h"
 
-
-#include <GL/glew.h>
-
-namespace retract
-{
-
-class Shader
+class Camera : public retract::Entity
 {
 public:
-    Shader() = default;
-    Shader(const std::string& vertex, const std::string& frag);
-    ~Shader();
-
-    bool Load(const std::string& vertex, const std::string& frag);
-    void Unload() const;
-
-    void Activate() const;
-
-    void SetMatrix(const char* name, const mat4& matrix) const;
-    void SetVector(const char* name, const vec3& vec) const;
-    void SetFloat(const char* name, f32 value) const;
-
+    Camera();
+    void UpdateEntity(f32 delta) override;
+    void EntityInput(const u8* keys) override;
 private:
-    bool IsValid() const;
-
-    GLuint mVertexShader{};
-    GLuint mFragShader{};
-    GLuint mProgram{};
+    retract::MoveComponent* mMove{};
 };
-
-} // namespace retract

@@ -15,44 +15,46 @@
 //     See the License for the specific language governing permissions and
 //     limitations under the License.
 //
-//  File Name: Shader.h
-//  Date File Created: 08/24/2023
+//  File Name: MeshComponent.cpp
+//  Date File Created: 08/26/2023
 //  Author: Matt
 //
 //  ------------------------------------------------------------------------------
 
-#pragma once
+#include "MeshComponent.h"
 
-#include "Retract/Common.h"
-
-
-#include <GL/glew.h>
+#include "Entity.h"
+#include "Retract/Graphics/Renderer.h"
 
 namespace retract
 {
 
-class Shader
+MeshComponent::MeshComponent(Entity* owner) : Component{owner}
 {
-public:
-    Shader() = default;
-    Shader(const std::string& vertex, const std::string& frag);
-    ~Shader();
+    graphics::AddMesh(this);
+}
 
-    bool Load(const std::string& vertex, const std::string& frag);
-    void Unload() const;
+MeshComponent::~MeshComponent()
+{
+    graphics::RemoveMesh(this);
+}
 
-    void Activate() const;
+void MeshComponent::Draw(Shader* shader)
+{
+    if(!mMesh) return;
 
-    void SetMatrix(const char* name, const mat4& matrix) const;
-    void SetVector(const char* name, const vec3& vec) const;
-    void SetFloat(const char* name, f32 value) const;
+    shader->SetMatrix("WorldTransform", mOwner->WorldTransform());
+    shader->SetFloat("SpecularPower", mMesh->SpecularPower());
 
-private:
-    bool IsValid() const;
+    if (const Texture* t = mMesh->GetTexture(mTextureIndex))
+    {
+        t->Activate();
+    }
 
-    GLuint mVertexShader{};
-    GLuint mFragShader{};
-    GLuint mProgram{};
-};
+    const VertexArray* vao = mMesh->GetVertexArray();
+    vao->Activate();
 
-} // namespace retract
+    graphics::DrawIndexed((i32)vao->NumIndices());
+}
+
+}

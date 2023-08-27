@@ -41,7 +41,7 @@ VertexArray::VertexArray(const std::vector<f32>& vertices, u32 num_verts, const 
     // Vertex buffer
     glCreateBuffers(1, &mVbo);
     glBindBuffer(GL_ARRAY_BUFFER, mVbo);
-    glBufferData(GL_ARRAY_BUFFER, num_verts * 5 * sizeof(f32), vertices.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, num_verts * 8 * sizeof(f32), vertices.data(), GL_STATIC_DRAW);
 
     // Index buffer
     glCreateBuffers(1, &mIbo);
@@ -49,10 +49,18 @@ VertexArray::VertexArray(const std::vector<f32>& vertices, u32 num_verts, const 
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, mNumIndices * sizeof(u32), indices.data(), GL_STATIC_DRAW);
 
     // Vertex attributes (for now assuming only one vertex format)
+
+    // Position is 3 floats
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(f32) * 5, nullptr);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(f32) * 8, nullptr);
+
+    // Normal is 3 floats
     glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(f32) * 5, reinterpret_cast<void*>(sizeof(f32) * 3));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(f32) * 8, reinterpret_cast<void*>(sizeof(f32) * 3));
+
+    // Tex coords are 2 floats
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(f32) * 8, reinterpret_cast<void*>(sizeof(f32) * 6));
 }
 
 VertexArray::~VertexArray()

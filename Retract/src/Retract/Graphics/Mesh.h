@@ -15,44 +15,44 @@
 //     See the License for the specific language governing permissions and
 //     limitations under the License.
 //
-//  File Name: Shader.h
-//  Date File Created: 08/24/2023
+//  File Name: Mesh.h
+//  Date File Created: 08/26/2023
 //  Author: Matt
 //
 //  ------------------------------------------------------------------------------
 
 #pragma once
 
+#include "Texture.h"
+#include "VertexArray.h"
 #include "Retract/Common.h"
-
-
-#include <GL/glew.h>
 
 namespace retract
 {
 
-class Shader
+class Mesh
 {
 public:
-    Shader() = default;
-    Shader(const std::string& vertex, const std::string& frag);
-    ~Shader();
+    Mesh() = default;
+    ~Mesh() = default;
 
-    bool Load(const std::string& vertex, const std::string& frag);
-    void Unload() const;
+    bool Load(const std::string& filename);
+    void Unload();
 
-    void Activate() const;
+    Texture* GetTexture(u32 index) const;
 
-    void SetMatrix(const char* name, const mat4& matrix) const;
-    void SetVector(const char* name, const vec3& vec) const;
-    void SetFloat(const char* name, f32 value) const;
+    constexpr VertexArray* GetVertexArray() const { return mVertexArray; }
+
+    constexpr const std::string& ShaderName() const { return mShaderName; }
+    constexpr f32                Radius() const { return mRadius; }
+    constexpr f32                SpecularPower() const { return mSpecularPower; }
 
 private:
-    bool IsValid() const;
-
-    GLuint mVertexShader{};
-    GLuint mFragShader{};
-    GLuint mProgram{};
+    std::vector<Texture*> mTextures{};
+    VertexArray*          mVertexArray{};
+    std::string           mShaderName{};
+    f32                   mRadius{};
+    f32                   mSpecularPower{100.f};
 };
 
 } // namespace retract

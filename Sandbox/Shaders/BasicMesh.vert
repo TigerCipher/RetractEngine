@@ -10,10 +10,10 @@ layout(location = 2) in vec2 inTexCoord;
 
 out vec2 fragTexCoord;
 
-void main(){
+void main()
+{
+	vec4 pos = vec4(inPosition, 1.0);
+	gl_Position = pos * WorldTransform * ViewProj;
 
-    vec4 pos = vec4(inPosition, 1.0);
-    gl_Position = pos * WorldTransform * ViewProj;
-
-    fragTexCoord = inTexCoord;
+	fragTexCoord = inTexCoord;
 }

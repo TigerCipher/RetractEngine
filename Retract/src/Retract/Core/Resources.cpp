@@ -32,6 +32,7 @@ namespace
 {
 std::unordered_map<std::string, Texture*> textures{};
 std::unordered_map<std::string, Shader*>  shaders{};
+std::unordered_map<std::string, Mesh*>    meshes{};
 } // anonymous namespace
 
 Texture* GetTexture(const std::string& filename)
@@ -81,6 +82,36 @@ void UnloadShaders()
     {
         s->Unload();
         delete s;
+    }
+}
+
+Mesh* GetMesh(const std::string& filename)
+{
+    Mesh* m{};
+    if (const auto it = meshes.find(filename); it != meshes.end())
+    {
+        m = it->second;
+    } else
+    {
+        m = DBG_NEW Mesh{};
+        if (m->Load(filename))
+        {
+            meshes.emplace(filename, m);
+        } else
+        {
+            SAFE_DELETE(m);
+        }
+    }
+
+    return m;
+}
+
+void UnloadMeshes()
+{
+    for (const auto& m : meshes | std::views::values)
+    {
+        m->Unload();
+        delete m;
     }
 }
 

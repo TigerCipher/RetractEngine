@@ -58,13 +58,13 @@ public:
     void            SetState(State state) { mState = state; }
 
 
-    void           CalculateWorldTransform();
-    const mat4&    WorldTransform() const { return mWorldTransform; }
-    constexpr vec2 Position() const { return mPosition; }
-    constexpr f32  Scale() const { return mScale; }
-    constexpr f32  Rotation() const { return mRotation; }
+    void                        CalculateWorldTransform();
+    constexpr const mat4&       WorldTransform() const { return mWorldTransform; }
+    constexpr const vec3&       Position() const { return mPosition; }
+    constexpr f32               Scale() const { return mScale; }
+    constexpr const quaternion& Rotation() const { return mRotation; }
 
-    void SetPosition(const vec2& pos)
+    void SetPosition(const vec3& pos)
     {
         mPosition             = pos;
         mRecalculateTransform = true;
@@ -74,13 +74,13 @@ public:
         mScale                = scale;
         mRecalculateTransform = true;
     }
-    void SetRotation(const f32 rotation)
+    void SetRotation(const quaternion& rotation)
     {
         mRotation             = rotation;
         mRecalculateTransform = true;
     }
 
-    vec2 Forward() const { return { math::Cos(mRotation), math::Sin(mRotation) }; }
+    vec3 Forward() const { return math::Transform(math::unitx_vec3, mRotation); }
 
 
 private:
@@ -90,9 +90,9 @@ private:
     mat4 mWorldTransform{};
     bool mRecalculateTransform{ true };
 
-    vec2 mPosition;
-    f32  mScale{ 1.f };
-    f32  mRotation{};
+    vec3       mPosition{};
+    f32        mScale{ 1.f };
+    quaternion mRotation{};
 };
 
 } // namespace retract

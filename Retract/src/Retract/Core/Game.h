@@ -45,9 +45,6 @@ public:
     void AddEntity(Entity* entity);
     void RemoveEntity(Entity* entity);
 
-    void AddSprite(Sprite* sprite);
-    void RemoveSprite(Sprite* sprite);
-
     template<typename T>
     static T* As()
     {
@@ -68,8 +65,6 @@ private:
     utl::vector<Entity*> m_entities{};
     utl::vector<Entity*> m_pending_entities{};
     bool                 m_updating_entities{ false };
-
-    utl::vector<Sprite*> m_sprites{};
 
     static Game* mInstance;
     static bool  mConstructed;

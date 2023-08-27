@@ -39,6 +39,10 @@
     #define DBG_NEW new
 #endif
 
+#define SAFE_DELETE(x)                                                                                                           \
+    delete (x);                                                                                                                  \
+    (x) = nullptr
+
 constexpr auto operator""_KB(const u64 x)
 {
     return x * 1024u;

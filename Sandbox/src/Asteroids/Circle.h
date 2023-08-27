@@ -32,7 +32,7 @@ public:
     void SetRadius(f32 radius) { m_radius = radius; }
     f32 Radius() const;
 
-    vec2 Center() const;
+    vec3 Center() const;
 
 private:
     f32 m_radius{};

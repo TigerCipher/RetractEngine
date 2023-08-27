@@ -116,7 +116,22 @@ void Shader::Activate() const
 void Shader::SetMatrix(const char* name, const mat4& matrix) const
 {
     const GLint loc = glGetUniformLocation(mProgram, name);
+    assert(loc != -1);
     glUniformMatrix4fv(loc, 1, GL_TRUE, matrix.data());
+}
+
+void Shader::SetVector(const char* name, const vec3& vec) const
+{
+    const GLint loc = glGetUniformLocation(mProgram, name);
+    assert(loc != -1);
+    glUniform3fv(loc, 1, vec.data());
+}
+
+void Shader::SetFloat(const char* name, f32 value) const
+{
+    const GLint loc = glGetUniformLocation(mProgram, name);
+    assert(loc != -1);
+    glUniform1f(loc, value);
 }
 
 bool Shader::IsValid() const

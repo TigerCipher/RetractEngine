@@ -27,6 +27,7 @@
 #include "Retract/Components/Sprite.h"
 #include "Window.h"
 #include "Resources.h"
+#include "Retract/Graphics/Renderer.h"
 #include "Retract/Graphics/VertexArray.h"
 
 #include <SDL2/SDL.h>
@@ -47,38 +48,8 @@ struct FrameInfo
 };
 
 FrameInfo          frame_info{};
-Shader*            sprite_shader{};
-VertexArray* sprite_verts{};
 
-void CreateSpriteVerts()
-{
-    std::vector<f32> vertices{
-        -0.5f, 0.5f,  0.f, 0.f, 0.f, // top left
-        0.5f,  0.5f,  0.f, 1.f, 0.f, // top right
-        0.5f,  -0.5f, 0.f, 1.f, 1.f, // bottom right
-        -0.5f, -0.5f, 0.f, 0.f, 1.f  // bottom left
-    };
 
-    std::vector<u32> indices{ 0, 1, 2, 2, 3, 0 };
-
-    sprite_verts = DBG_NEW VertexArray(vertices, 4, indices);
-}
-
-bool LoadShaders()
-{
-    sprite_shader = core::LoadShader("Sprite", "./Shaders/Sprite.vert", "./Shaders/Sprite.frag");
-    if (!sprite_shader)
-    {
-        return false;
-    }
-
-    sprite_shader->Activate();
-
-    const mat4 viewProj = math::SimpleViewProjection((f32) window::Width(), (f32) window::Height());
-    sprite_shader->SetMatrix("ViewProj", viewProj);
-
-    return true;
-}
 
 } // anonymous namespace
 
@@ -96,12 +67,10 @@ bool Game::InitializeInternal()
         return false;
     }
 
-    if (!LoadShaders())
+    if(!graphics::Initialize())
     {
-        LOG_ERROR("Failed to load shaders");
         return false;
     }
-    CreateSpriteVerts();
 
     Init();
     return true;
@@ -162,11 +131,7 @@ void Game::ShutdownInternal() const
         delete m_entities.back();
     }
 
-    delete sprite_verts;
-
-    core::UnloadTextures();
-    core::UnloadShaders();
-
+    graphics::Shutdown();
     window::Shutdown();
 }
 void Game::AddEntity(Entity* entity)
@@ -194,25 +159,6 @@ void Game::RemoveEntity(Entity* entity)
         std::iter_swap(it, m_entities.end() - 1);
         m_entities.pop_back();
     }
-}
-void Game::AddSprite(Sprite* sprite)
-{
-    const i32 draw_order = sprite->DrawOrder();
-    auto      it         = m_sprites.begin();
-    while (it != m_sprites.end())
-    {
-        if (draw_order < (*it)->DrawOrder())
-            break;
-        ++it;
-    }
-
-    m_sprites.insert(it, sprite);
-}
-
-void Game::RemoveSprite(Sprite* sprite)
-{
-    auto it = std::ranges::find(m_sprites, sprite);
-    m_sprites.erase(it);
 }
 
 
@@ -286,20 +232,7 @@ void Game::Update()
 
 void Game::Render() const
 {
-    glClearColor(0.2f, 0.2f, 0.2f, 1.f);
-    glClear(GL_COLOR_BUFFER_BIT);
-
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    sprite_shader->Activate();
-    sprite_verts->Activate();
-
-    for (const auto sprite : m_sprites)
-    {
-        sprite->Draw(sprite_shader);
-    }
-
+    graphics::Render();
     window::SwapBuffers();
 }
 

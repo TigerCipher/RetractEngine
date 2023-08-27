@@ -27,7 +27,7 @@
     #define WIN32_LEAN_AND_MEAN
 #endif
 
-#include "Asteroids/AsteroidGame.h"
+#include "Asteroids/Sandbox.h"
 
 #define _CRTDBG_MAP_ALLOC
 #include <Windows.h>
@@ -46,7 +46,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
     //_CrtSetBreakAlloc(378); // SDL_INIT_AUDIO seems to lead to the memory leak
 #endif
-    AsteroidGame game{};
+    Sandbox game{};
     //TowerGame game{};
 
     const i32 status = game.Run();

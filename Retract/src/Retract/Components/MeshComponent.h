@@ -15,44 +15,35 @@
 //     See the License for the specific language governing permissions and
 //     limitations under the License.
 //
-//  File Name: Shader.h
-//  Date File Created: 08/24/2023
+//  File Name: MeshComponent.h
+//  Date File Created: 08/26/2023
 //  Author: Matt
 //
 //  ------------------------------------------------------------------------------
 
 #pragma once
 
-#include "Retract/Common.h"
-
-
-#include <GL/glew.h>
+#include "Component.h"
+#include "Retract/Graphics/Mesh.h"
+#include "Retract/Graphics/Shader.h"
 
 namespace retract
 {
 
-class Shader
+class MeshComponent : public Component
 {
 public:
-    Shader() = default;
-    Shader(const std::string& vertex, const std::string& frag);
-    ~Shader();
+    MeshComponent(Entity* owner);
+    ~MeshComponent() override;
 
-    bool Load(const std::string& vertex, const std::string& frag);
-    void Unload() const;
+    virtual void Draw(Shader* shader);
 
-    void Activate() const;
-
-    void SetMatrix(const char* name, const mat4& matrix) const;
-    void SetVector(const char* name, const vec3& vec) const;
-    void SetFloat(const char* name, f32 value) const;
+    virtual void SetMesh(Mesh* mesh) { mMesh = mesh; }
+    void SetTextureIndex(u32 index) { mTextureIndex = index; }
 
 private:
-    bool IsValid() const;
-
-    GLuint mVertexShader{};
-    GLuint mFragShader{};
-    GLuint mProgram{};
+    Mesh* mMesh{};
+    u32 mTextureIndex{};
 };
 
-} // namespace retract
+}

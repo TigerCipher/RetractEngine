@@ -39,6 +39,7 @@ Texture::~Texture()
 
 bool Texture::Load(const std::string& filename)
 {
+    LOG_INFO("Loading texture {}", filename);
     i32 channels = 0;
 
     u8* image = SOIL_load_image(filename.c_str(), &mWidth, &mHeight, &channels, SOIL_LOAD_AUTO);

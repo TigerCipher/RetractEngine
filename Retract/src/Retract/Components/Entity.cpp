@@ -94,10 +94,8 @@ void Entity::AddComponent(Component* comp)
 
 void Entity::RemoveComponent(Component* comp)
 {
-    auto it = std::ranges::find(mComponents, comp);
-    if (it != mComponents.end())
+    if (const auto it = std::ranges::find(mComponents, comp); it != mComponents.end())
     {
-        //delete *it; // this method is called by Component dtor, deleting here might cause weirdness. Entity dtor will delete component
         mComponents.erase(it);
     }
 }
@@ -110,8 +108,8 @@ void Entity::CalculateWorldTransform()
     mRecalculateTransform = false;
     // Scale, rotate, translate
     mWorldTransform = math::Scale(mScale);
-    mWorldTransform *= math::RotationZ(mRotation);
-    mWorldTransform *= math::Translation({ mPosition.x, mPosition.y, 0.f });
+    mWorldTransform *= math::FromQuaternion(mRotation);
+    mWorldTransform *= math::Translation(mPosition);
 
     for (const auto comp : mComponents)
     {

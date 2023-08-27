@@ -26,6 +26,7 @@
 #include "Entity.h"
 #include "Retract/Core/Game.h"
 #include "Retract/Core/Resources.h"
+#include "Retract/Graphics/Renderer.h"
 
 namespace retract
 {
@@ -33,12 +34,12 @@ namespace retract
 
 Sprite::Sprite(Entity* owner, i32 draw_order) : Component{ owner }, mDrawOrder{ draw_order }
 {
-    Game::Instance()->AddSprite(this);
+    graphics::AddSprite(this);
 }
 
 Sprite::~Sprite()
 {
-    Game::Instance()->RemoveSprite(this);
+    graphics::RemoveSprite(this);
 }
 
 void Sprite::Draw(Shader* shader)
@@ -54,7 +55,7 @@ void Sprite::Draw(Shader* shader)
     shader->SetMatrix("WorldTransform", world);
     mTexture->Activate();
 
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+    graphics::DrawIndexed(6);
 }
 
 void Sprite::SetTexture(Texture* texture)

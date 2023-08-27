@@ -141,10 +141,14 @@
   <ItemGroup>
     <ClCompile Include="src\Retract\Components\Component.cpp" />
     <ClCompile Include="src\Retract\Components\Entity.cpp" />
+    <ClCompile Include="src\Retract\Components\MeshComponent.cpp" />
+    <ClCompile Include="src\Retract\Components\MoveComponent.cpp" />
     <ClCompile Include="src\Retract\Components\Sprite.cpp" />
     <ClCompile Include="src\Retract\Core\Game.cpp" />
     <ClCompile Include="src\Retract\Core\Resources.cpp" />
     <ClCompile Include="src\Retract\Core\Window.cpp" />
+    <ClCompile Include="src\Retract\Graphics\Mesh.cpp" />
+    <ClCompile Include="src\Retract\Graphics\Renderer.cpp" />
     <ClCompile Include="src\Retract\Graphics\Shader.cpp" />
     <ClCompile Include="src\Retract\Graphics\Texture.cpp" />
     <ClCompile Include="src\Retract\Graphics\VertexArray.cpp" />
@@ -156,10 +160,14 @@
     <ClInclude Include="src\Retract\Common.h" />
     <ClInclude Include="src\Retract\Components\Component.h" />
     <ClInclude Include="src\Retract\Components\Entity.h" />
+    <ClInclude Include="src\Retract\Components\MeshComponent.h" />
+    <ClInclude Include="src\Retract\Components\MoveComponent.h" />
     <ClInclude Include="src\Retract\Components\Sprite.h" />
     <ClInclude Include="src\Retract\Core\Game.h" />
     <ClInclude Include="src\Retract\Core\Resources.h" />
     <ClInclude Include="src\Retract\Core\Window.h" />
+    <ClInclude Include="src\Retract\Graphics\Mesh.h" />
+    <ClInclude Include="src\Retract\Graphics\Renderer.h" />
     <ClInclude Include="src\Retract\Graphics\Shader.h" />
     <ClInclude Include="src\Retract\Graphics\Texture.h" />
     <ClInclude Include="src\Retract\Graphics\VertexArray.h" />

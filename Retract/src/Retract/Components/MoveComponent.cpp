@@ -15,44 +15,43 @@
 //     See the License for the specific language governing permissions and
 //     limitations under the License.
 //
-//  File Name: Shader.h
-//  Date File Created: 08/24/2023
+//  File Name: MoveComponent.h
+//  Date File Created: 08/25/2023
 //  Author: Matt
 //
 //  ------------------------------------------------------------------------------
 
-#pragma once
 
-#include "Retract/Common.h"
+#include "MoveComponent.h"
 
 
-#include <GL/glew.h>
+#include "Entity.h"
+
 
 namespace retract
 {
 
-class Shader
+void MoveComponent::Update(f32 delta)
 {
-public:
-    Shader() = default;
-    Shader(const std::string& vertex, const std::string& frag);
-    ~Shader();
+    if (!math::NearZero(mAngularSpeed))
+    {
+        quaternion rot   = mOwner->Rotation();
+        const f32  angle = mAngularSpeed * delta;
 
-    bool Load(const std::string& vertex, const std::string& frag);
-    void Unload() const;
+        // Incremental rotation about up axis
+        const quaternion inc{ math::unitz_vec3, angle };
 
-    void Activate() const;
+        // concat old and new rotation
+        rot = math::Concatinate(rot, inc);
+        mOwner->SetRotation(rot);
+    }
 
-    void SetMatrix(const char* name, const mat4& matrix) const;
-    void SetVector(const char* name, const vec3& vec) const;
-    void SetFloat(const char* name, f32 value) const;
-
-private:
-    bool IsValid() const;
-
-    GLuint mVertexShader{};
-    GLuint mFragShader{};
-    GLuint mProgram{};
-};
+    if (!math::NearZero(mForwardSpeed))
+    {
+        vec3 pos = mOwner->Position();
+        pos += mOwner->Forward() * mForwardSpeed * delta;
+        mOwner->SetPosition(pos);
+    }
+}
 
 } // namespace retract

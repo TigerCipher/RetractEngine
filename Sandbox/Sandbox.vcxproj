@@ -143,25 +143,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Asteroids\Asteroid.cpp" />
-    <ClCompile Include="src\Asteroids\AsteroidGame.cpp" />
+    <ClCompile Include="src\Asteroids\Camera.cpp" />
     <ClCompile Include="src\Asteroids\Circle.cpp" />
-    <ClCompile Include="src\Asteroids\Input.cpp" />
-    <ClCompile Include="src\Asteroids\Laser.cpp" />
-    <ClCompile Include="src\Asteroids\Move.cpp" />
+    <ClCompile Include="src\Asteroids\Plane.cpp" />
+    <ClCompile Include="src\Asteroids\Sandbox.cpp" />
     <ClCompile Include="src\Main.cpp" />
-    <ClCompile Include="src\Asteroids\Ship.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Asteroids\Asteroid.h" />
-    <ClInclude Include="src\Asteroids\AsteroidGame.h" />
+    <ClInclude Include="src\Asteroids\Camera.h" />
     <ClInclude Include="src\Asteroids\Circle.h" />
-    <ClInclude Include="src\Asteroids\Input.h" />
-    <ClInclude Include="src\Asteroids\Laser.h" />
-    <ClInclude Include="src\Asteroids\Move.h" />
-    <ClInclude Include="src\Asteroids\Ship.h" />
+    <ClInclude Include="src\Asteroids\Plane.h" />
+    <ClInclude Include="src\Asteroids\Sandbox.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Shaders\BasicMesh.frag" />
+    <None Include="Shaders\BasicMesh.vert" />
+    <None Include="Shaders\Phong.frag" />
+    <None Include="Shaders\Phong.vert" />
     <None Include="Shaders\Sprite.frag" />
     <None Include="Shaders\Sprite.vert" />
   </ItemGroup>

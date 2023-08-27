@@ -15,8 +15,8 @@
 //     See the License for the specific language governing permissions and
 //     limitations under the License.
 //
-//  File Name: Shader.h
-//  Date File Created: 08/24/2023
+//  File Name: Renderer.h
+//  Date File Created: 08/25/2023
 //  Author: Matt
 //
 //  ------------------------------------------------------------------------------
@@ -24,35 +24,39 @@
 #pragma once
 
 #include "Retract/Common.h"
+#include "Retract/Components/Sprite.h"
+#include "Retract/Components/MeshComponent.h"
 
-
-#include <GL/glew.h>
-
-namespace retract
+namespace retract::graphics
 {
 
-class Shader
+struct DirectionalLight
 {
-public:
-    Shader() = default;
-    Shader(const std::string& vertex, const std::string& frag);
-    ~Shader();
-
-    bool Load(const std::string& vertex, const std::string& frag);
-    void Unload() const;
-
-    void Activate() const;
-
-    void SetMatrix(const char* name, const mat4& matrix) const;
-    void SetVector(const char* name, const vec3& vec) const;
-    void SetFloat(const char* name, f32 value) const;
-
-private:
-    bool IsValid() const;
-
-    GLuint mVertexShader{};
-    GLuint mFragShader{};
-    GLuint mProgram{};
+    vec3 direction{};
+    vec3 diffuseColor{};
+    vec3 specularColor{};
 };
 
-} // namespace retract
+bool Initialize();
+void Shutdown();
+
+void AddSprite(Sprite* sprite);
+void RemoveSprite(Sprite* sprite);
+
+void AddMesh(MeshComponent* mesh);
+void RemoveMesh(MeshComponent* mesh);
+
+
+void SetViewMatrix(const mat4& view);
+
+void SetAmbientLight(const vec3& ambient);
+DirectionalLight& GetDirectionalLight();
+
+void Render();
+
+void DrawIndexed(i32 count);
+
+f32 ScreenWidth();
+f32 ScreenHeight();
+
+} // namespace retract::graphics

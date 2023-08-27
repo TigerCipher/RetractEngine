@@ -15,44 +15,33 @@
 //     See the License for the specific language governing permissions and
 //     limitations under the License.
 //
-//  File Name: Shader.h
-//  Date File Created: 08/24/2023
+//  File Name: MoveComponent.h
+//  Date File Created: 08/25/2023
 //  Author: Matt
 //
 //  ------------------------------------------------------------------------------
 
 #pragma once
 
-#include "Retract/Common.h"
-
-
-#include <GL/glew.h>
+#include "Component.h"
 
 namespace retract
 {
-
-class Shader
+class MoveComponent : public Component
 {
 public:
-    Shader() = default;
-    Shader(const std::string& vertex, const std::string& frag);
-    ~Shader();
+    MoveComponent(Entity* owner, i32 update_order = 10) : Component(owner, update_order) {}
+    void Update(f32 delta) override;
 
-    bool Load(const std::string& vertex, const std::string& frag);
-    void Unload() const;
+    void SetAngularSpeed(f32 speed) { mAngularSpeed = speed; }
+    void SetForwardSpeed(f32 speed) { mForwardSpeed = speed; }
 
-    void Activate() const;
-
-    void SetMatrix(const char* name, const mat4& matrix) const;
-    void SetVector(const char* name, const vec3& vec) const;
-    void SetFloat(const char* name, f32 value) const;
+    constexpr f32 AngularSpeed() const { return mAngularSpeed; }
+    constexpr f32 ForwardSpeed() const { return mForwardSpeed; }
 
 private:
-    bool IsValid() const;
-
-    GLuint mVertexShader{};
-    GLuint mFragShader{};
-    GLuint mProgram{};
+    f32 mAngularSpeed{};
+    f32 mForwardSpeed{};
 };
 
 } // namespace retract
